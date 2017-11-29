@@ -1,0 +1,34 @@
+{
+  "name": "what-the-fac-is-for-dinner",
+  "version": "1.0.0",
+  "description": "A web app to help us plan our community dinner!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fac-12/What-the-FAC-is-for-dinner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fac-12/What-the-FAC-is-for-dinner/issues"
+  },
+  "homepage": "https://github.com/fac-12/What-the-FAC-is-for-dinner#readme",
+  "devDependencies": {
+    "eslint": "^4.12.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "istanbul": "^0.4.5",
+    "nodemon": "^1.12.1",
+    "shot": "^4.0.4",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.8.0"
+  },
+  "dependencies": {
+    "env2": "^2.2.0",
+    "pg": "^7.4.0",
+    "url": "^0.11.0"
+  }
+}
