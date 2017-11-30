@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
-const getDishes = require('./queries/getDishes');
+const getDishes = require('./queries/getDishes.js');
 const addDishes = require('./queries/addDishes');
 
 const homeHandler = (req, res) => {
@@ -24,7 +24,7 @@ const staticFileHandler = (req, res) => {
     css: 'text/css',
     js: 'application/javascript',
     ico: 'image/x-icon',
-    jpg: 'image/jpeg'
+    jpg: 'image/jpeg',
   };
 
   const extension = req.url.split('.')[1];
