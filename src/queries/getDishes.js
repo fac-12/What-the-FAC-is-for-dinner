@@ -1,4 +1,4 @@
-const databaseConnection = require('../database/db_connection.js');
+const databaseConnection = require('../database/db_connections.js');
 
 const getDishes = cb => {
   databaseConnection.query('SELECT users.name, dishes.name, dietary.name'+

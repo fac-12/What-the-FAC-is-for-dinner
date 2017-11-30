@@ -1,16 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
+const getDishes = require('./queries/getDishes.js');
+
 
 const homeHandler = (req, res) => {
   const filePath = path.join(__dirname, '..', 'public', 'index.html');
   fs.readFile(filePath, (err, file) => {
     if (err) {
       console.log(err);
-      res.writeHead(500, {'Content-type': 'text/plain'});
+      res.writeHead(500, { 'Content-type': 'text/plain' });
       res.end('file not found');
     }
-    res.writeHead(200, {'Content-type': 'text/html'});
+    res.writeHead(200, { 'Content-type': 'text/html' });
     res.end(file);
   });
 };
@@ -21,20 +23,20 @@ const staticFileHandler = (req, res, endpoint) => {
     css: 'text/css',
     js: 'application/javascript',
     ico: 'image/x-icon',
-    jpg: 'image/jpeg'
+    jpg: 'image/jpeg',
   };
 
-  const extention = endpoint.split('.')[1];
+  const extension = endpoint.split('.')[1];
 
   const filePath = path.join(__dirname, '..', endpoint);
 
   fs.readFile(filePath, (err, file) => {
     if (err) {
       console.log(err);
-      res.writeHead(404, {'Content-type': 'text/plain'});
+      res.writeHead(404, { 'Content-type': 'text/plain' });
       res.end('Page not found');
-    };
-    res.writeHead(200, `Content-type: ${extensionType[extention]}`);
+    }
+    res.writeHead(200, `Content-type: ${extensionType[extension]}`);
     res.end(file);
   });
 };
@@ -42,16 +44,15 @@ const staticFileHandler = (req, res, endpoint) => {
 const getDishesHandler = (req, res) => {
   getDishes((err, resData) => {
     if (err) {
-      res.writeHead(500, 'Content-type':'text/plain');
+      res.writeHead(500, { 'Content-type': 'text/plain' });
       res.end('Something went wrong on the server');
-    }
-    else {
-      let jsonData = JSON.stringify(resData);
-      res.writeHead(200, {'Content-type': 'application/json'});
+    } else {
+      const jsonData = JSON.stringify(resData);
+      res.writeHead(200, { 'Content-type': 'application/json' });
       res.end(jsonData);
     }
   });
-}
+};
 
 const addDishesHandler = (req, res) => {
   let allTheData = '';
@@ -63,7 +64,7 @@ const addDishesHandler = (req, res) => {
 
     addDishes((err, resData) => {
       if (err) {
-        res.writeHead(500, 'Content-type':'text/plain');
+        res.writeHead(500, { 'Content-type': 'text/plain' });
         res.end('Something went wrong on the server');
       }
       else {
