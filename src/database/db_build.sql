@@ -5,24 +5,28 @@ DROP TABLE IF EXISTS users, dishes, dietary, connections;
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
-  gitterhandle VARCHAR(100) NOT NULL
+  gitterhandle VARCHAR(100) NOT NULL,
+  DateCreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS dishes (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
-  makerID INT REFERENCES users(id)
+  makerID INT REFERENCES users(id),
+  DateCreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS dietary (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(100) NOT NULL
+  name VARCHAR(100) NOT NULL,
+  DateCreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS connections (
   id SERIAL PRIMARY KEY,
   dish_id INT REFERENCES dishes(id),
-  dietary_id INT REFERENCES dietary(id)
+  dietary_id INT REFERENCES dietary(id),
+  DateCreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO users (name, gitterhandle) VALUES ('Natalie', '@njseeto');
