@@ -12,7 +12,7 @@ const router = (request, response) => {
   if (homeUrl === '/') {
     homeHandler(request, response);
   } else if (url.includes('public')) {
-    staticFileHandler(request, response, url);
+    staticFileHandler(request, response, homeUrl);
   } else if (url === 'getDishes') {
     getDishesHandler(request, response);
   } else if (url === 'addDishes') {
