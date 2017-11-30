@@ -45,7 +45,6 @@ const staticFileHandler = (req, res) => {
 const getDishesHandler = (req, res) => {
   getDishes((err, resData) => {
     if (err) {
-
       res.writeHead(500, { 'Content-type': 'text/plain' });
       res.end('Something went wrong on the server');
     } else {
@@ -64,11 +63,11 @@ const addDishesHandler = (req, res) => {
   req.on('end', () => {
     allTheData = querystring.parse(allTheData);
 
-    // Object.keys(allTheData).forEach((key) => {
-    //   allTheData[key] = allTheData[key].replace(/[/[<|>|*|%|!|@|=]/g, '');
-    // });
-    //
-    // console.log(allTheData);
+    Object.keys(allTheData).forEach((key) => {
+      allTheData[key] = allTheData[key].replace(/[/[<|>|*|%|!|@|=]/g, '');
+    });
+
+    console.log(allTheData);
 
     const newObject = {
       name: allTheData.name,
@@ -79,10 +78,16 @@ const addDishesHandler = (req, res) => {
 
     addDishes((err, resData) => {
       if (err) {
+        console.log(err.code, "THIS IS ERR CODE");
+        if (err.code === '23505') {
+          res.writeHead(400, { 'Content-type': 'text/plain' });
+          res.end('You have already added a dish');
+        } else {
         console.log(err);
         res.writeHead(500, { 'Content-type': 'text/plain' });
         res.end('Something went wrong on the server');
-      } else {
+      }
+    } else {
         res.writeHead(302, { 'Location' : '/' });
         res.end();
       }

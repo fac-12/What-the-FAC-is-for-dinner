@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS users, dishes, dietary, connections;
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
-  gitterhandle VARCHAR(100) NOT NULL,
+  gitterhandle VARCHAR(100) NOT NULL UNIQUE,
   DateCreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS connections (
   DateCreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO users (name, gitterhandle) VALUES ('Natalie', '@njseeto');
+INSERT INTO users (name, gitterhandle) VALUES ('Natalie', 'njseeto');
 
-INSERT INTO dishes (name, makerID) VALUES ('Vegan Gingerbread People', (SELECT id FROM users WHERE gitterhandle = '@njseeto'));
+INSERT INTO dishes (name, makerID) VALUES ('Vegan Gingerbread People', (SELECT id FROM users WHERE gitterhandle = 'njseeto'));
 
 INSERT INTO dietary (name) VALUES ('vegan'), ('nutfree'), ('vegetarian'), ('glutenfree'), ('dairyfree'), ('halal');
 
