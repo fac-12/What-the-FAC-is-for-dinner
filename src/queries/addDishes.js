@@ -7,6 +7,7 @@ const addDishes = (cb, userName, userHandle, dishName, dietaryArray) => {
       cb(err);
     } else {
       dietaryArray.forEach((value, index, array) => {
+        console.log(value);
         databaseConnection.query(`INSERT INTO connections (dish_id, dietary_id)
         VALUES ((SELECT id FROM dishes WHERE name = '${dishName}'), (SELECT id FROM dietary WHERE name = '${value}'))`, (dietaryErr, dietaryRes) => {
           if (dietaryErr) {
