@@ -1,4 +1,4 @@
-# What-the-FAC-is-for-dinner
+# What-the-FAC-is-for-dinner ![](https://travis-ci.org/fac-12/What-the-FAC-is-for-dinner.svg?branch=master)
 
 *@jamiecoe "Nobody's gonna bring a slab of meat."*
 
