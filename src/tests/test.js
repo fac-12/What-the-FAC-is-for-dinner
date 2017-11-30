@@ -27,13 +27,12 @@ test('unknow route', (t) => {
 
 test('getDishes', (t) => {
   runDbBuild((err, res) => {
-    console.log('db built');
     getDishes((error, responseRows) => {
       if (error) {
         console.log(err);
       } else {
         console.log(responseRows);
-        t.deepEqual(typeof responseRows, 'object', 'response should be an object');
+        t.equals(typeof responseRows, 'object', 'response should be an object');
         t.end();
       }
     });
