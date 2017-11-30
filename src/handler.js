@@ -1,13 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
-<<<<<<< HEAD
 const getDishes = require('./queries/getDishes.js');
-
-=======
-const getDishes = require('./queries/getDishes');
 const addDishes = require('./queries/addDishes');
->>>>>>> origin
 
 const homeHandler = (req, res) => {
   const filePath = path.join(__dirname, '..', 'public', 'index.html');
