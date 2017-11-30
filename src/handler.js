@@ -63,19 +63,32 @@ const addDishesHandler = (req, res) => {
   req.on('end', () => {
     allTheData = querystring.parse(allTheData);
 
+    Object.keys(allTheData).forEach((key) => {
+      allTheData[key] = allTheData[key].replace(/[/[<|>|*|%|!|@|=]/g, '');
+    });
+
+    console.log(allTheData);
+
     const newObject = {
       name: allTheData.name,
       gitterhandle: allTheData.gitterhandle,
       dish: allTheData.dish,
-      dietary: Object.keys(allTheData).slice(3)
+      dietary: Object.keys(allTheData).slice(3),
     };
 
     addDishes((err, resData) => {
       if (err) {
+        console.log(err.code, "THIS IS ERR CODE");
+        if (err.code === '23505') {
+          res.writeHead(400, { 'Content-type': 'text/plain' });
+          res.end('You have already added a dish');
+        } else {
+        console.log(err);
         res.writeHead(500, { 'Content-type': 'text/plain' });
         res.end('Something went wrong on the server');
-      } else {
-        res.writeHead(302, { 'Location' : '' });
+      }
+    } else {
+        res.writeHead(302, { 'Location' : '/' });
         res.end();
       }
     }, newObject.name, newObject.gitterhandle, newObject.dish, newObject.dietary);
@@ -87,5 +100,5 @@ module.exports = {
   homeHandler,
   staticFileHandler,
   getDishesHandler,
-  addDishesHandler
+  addDishesHandler,
 };
