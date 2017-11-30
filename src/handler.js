@@ -75,7 +75,10 @@ const addDishesHandler = (req, res) => {
       dish: allTheData.dish,
       dietary: Object.keys(allTheData).slice(3),
     };
+    console.log('before if: ', newObject);
+    if (newObject.dietary.length === 0) newObject.dietary = ['no dietary reqirement satisfied'];
 
+    console.log('after if: ', newObject);
     addDishes((err, resData) => {
       if (err) {
         console.log(err.code, "THIS IS ERR CODE");
