@@ -67,9 +67,12 @@ const addDishesHandler = (req, res) => {
       name: allTheData.name,
       gitterhandle: allTheData.gitterhandle,
       dish: allTheData.dish,
-      dietary: Object.keys(allTheData).slice(3)
+      dietary: Object.keys(allTheData).slice(3),
     };
+    console.log('before if: ', newObject);
+    if (newObject.dietary.length === 0) newObject.dietary = ['no dietary reqirement satisfied'];
 
+    console.log('after if: ', newObject);
     addDishes((err, resData) => {
       if (err) {
         res.writeHead(500, { 'Content-type': 'text/plain' });
