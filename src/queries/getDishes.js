@@ -1,6 +1,6 @@
-const databaseConnection = require('../database/db_connection.js');
+const databaseConnection = require('../database/db_connections.js');
 
-const getDishes = cb => {
+const getDishes = (cb) => {
   databaseConnection.query('SELECT users.name, dishes.name, dietary.name'+
                            'FROM users, dishes, dietary, connections'+
                            'WHERE users.id = dishes.makerid AND dishes.id = connections.dish_id' +'AND connections.dietary_id = dietary.id', (err, res) => {

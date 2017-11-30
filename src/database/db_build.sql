@@ -29,8 +29,8 @@ INSERT INTO users (name, gitterhandle) VALUES ('Natalie', '@njseeto');
 
 INSERT INTO dishes (name, makerID) VALUES ('Vegan Gingerbread People', (SELECT id FROM users WHERE gitterhandle = '@njseeto'));
 
-INSERT INTO dietary (name) VALUES ('Vegan'), ('Nut-free'), ('Vegetarian'), ('Gluten-free'), ('Dairy-free'), ('Halal');
+INSERT INTO dietary (name) VALUES ('vegan'), ('nutfree'), ('vegetarian'), ('glutenfree'), ('dairyfree'), ('halal');
 
-INSERT INTO connections (dish_id, dietary_id) VALUES ((SELECT id FROM dishes WHERE name = 'Vegan Gingerbread People'),(SELECT id FROM dietary WHERE name = 'Vegan')), ((SELECT id FROM dishes WHERE name = 'Vegan Gingerbread People'),(SELECT id FROM dietary WHERE name = 'Nut-free'));
+INSERT INTO connections (dish_id, dietary_id) VALUES ((SELECT id FROM dishes WHERE name = 'Vegan Gingerbread People'),(SELECT id FROM dietary WHERE name = 'vegan')), ((SELECT id FROM dishes WHERE name = 'Vegan Gingerbread People'),(SELECT id FROM dietary WHERE name = 'nutfree'));
 
 COMMIT;
