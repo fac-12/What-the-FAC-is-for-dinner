@@ -76,7 +76,7 @@ const addDishesHandler = (req, res) => {
       dietary: Object.keys(allTheData).slice(3),
     };
     console.log('before if: ', newObject);
-    if (newObject.dietary.length === 0) newObject.dietary = ['no dietary reqirement satisfied'];
+    if (newObject.dietary.length === 0) newObject.dietary = ['none of the above'];
 
     console.log('after if: ', newObject);
     addDishes((err, resData) => {
@@ -86,11 +86,11 @@ const addDishesHandler = (req, res) => {
           res.writeHead(400, { 'Content-type': 'text/plain' });
           res.end('You have already added a dish');
         } else {
-        console.log(err);
-        res.writeHead(500, { 'Content-type': 'text/plain' });
-        res.end('Something went wrong on the server');
-      }
-    } else {
+          console.log(err);
+          res.writeHead(500, { 'Content-type': 'text/plain' });
+          res.end('Something went wrong on the server');
+        }
+      } else {
         res.writeHead(302, { 'Location' : '/' });
         res.end();
       }

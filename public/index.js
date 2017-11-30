@@ -7,7 +7,6 @@ var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = function() {
   if(this.readyState == 4 && this.status == 200){
     var allDishes = JSON.parse(xhr.responseText);
-    console.log(allDishes);
     renderData(allDishes);
     }
   else {
@@ -24,7 +23,6 @@ var renderData = function(responseObj){
   responseObj.forEach(function(obj){
     var newRow = document.createElement('tr');
     table.appendChild(newRow);
-  console.log(newRow.previousSibling.firstChild.nextSibling.textContent);
 
     var person = document.createElement('td');
     var gitter = document.createElement('td');
