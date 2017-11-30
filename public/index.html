@@ -5,26 +5,30 @@
     <link rel="stylesheet" href="public/style.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Righteous" rel="stylesheet">
     <title>What the FAC is for dinner?</title>
   </head>
   <body>
-    <h1>What the FAC is for dinner?</h1>
+    <main>
+      <h1>What the FAC is for dinner?</h1>
+    <section id="form-section" class="form-section">
     <form class="form" action="/addDishes" method="post" id="the-form">
       <input name="name" type="text" class="input" placeholder="Enter your first name" id="input-name" required>
-      <label for="input-gitter">@</label>
+      <!-- <label for="input-gitter">@</label> -->
       <input name="gitterhandle" type="text" class="input" placeholder="Enter your gitter handle" id="input-gitter" required>
-      <input name="dish" type="text" class="input" placeholder="Enter your dish" id="input-dish" required>
-      <input name="vegetarian" type="checkbox" class="checkbox" id="Vegetarian">Vegetarian<br>
-      <input name="vegan" type="checkbox" class="checkbox" id="Vegan">Vegan<br>
-      <input name="glutenfree" type="checkbox" class="checkbox" id="Gluten-free">Gluten-Free<br>
-      <input name="nutfree" type="checkbox" class="checkbox" id="Nut-free">Nut-Free<br>
-      <input name="dairyfree" type="checkbox" class="checkbox" id="Dairy-free">Dairy-Free<br>
-      <input name="halal" type="checkbox" class="checkbox" id="Halal">Halal<br>
+      <input name="dish" type="text" class="input" placeholder="Enter your dish" id="input-dish" required></br>
+      <input name="vegetarian" type="checkbox" class="checkbox" id="Vegetarian">Vegetarian
+      <input name="vegan" type="checkbox" class="checkbox" id="Vegan">Vegan
+      <input name="glutenfree" type="checkbox" class="checkbox" id="Gluten-free">Gluten-Free
+      <input name="nutfree" type="checkbox" class="checkbox" id="Nut-free">Nut-Free
+      <input name="dairyfree" type="checkbox" class="checkbox" id="Dairy-free">Dairy-Free
+      <input name="halal" type="checkbox" class="checkbox" id="Halal">Halal</br>
       <button type="submit" class="button" id="submit-button">Add</button>
     </form>
-    <section id="results">
-      <table id="table">
-        <tr>
+  </section>
+    <section id="results" class="results">
+      <table id="table" class="results--table">
+        <tr class="table__headings">
           <th>Name</th>
           <th>Gitter Handle</th>
           <th>Dish</th>
@@ -32,7 +36,7 @@
         </tr>
       </table>
     </section>
-
+    </main>
   </body>
   <script type="text/javascript" src='public/index.js'></script>
 </html>
