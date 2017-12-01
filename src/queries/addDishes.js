@@ -10,9 +10,8 @@ const addDishes = (cb, userName, userHandle, dishName, dietaryArray) => {
           cb(err);
         } else {
           dietaryArray.forEach((value, index, array) => {
-            console.log(value);
             databaseConnection.query(`INSERT INTO connections (dish_id, dietary_id)
-              VALUES ((SELECT id FROM dishes WHERE name = $1), (SELECT id FROM dietary WHERE name = $2))`,[dishName, value], (dietaryErr, dietaryRes) => {
+              VALUES ((SELECT id FROM dishes WHERE name = $1 AND makerID = (SELECT id FROM users WHERE gitterhandle = $3)), (SELECT id FROM dietary WHERE name = $2))`,[dishName, value, userHandle], (dietaryErr, dietaryRes) => {
                 if (dietaryErr) {
                   cb(dietaryErr);
                 } else if (index === array.length - 1) {
