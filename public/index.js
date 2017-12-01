@@ -30,15 +30,9 @@ var renderData = function(responseObj){
     var diet = document.createElement('td');
 
     diet.textContent = obj.diet;
-
-    if ((newRow.previousSibling.lastChild.previousSibling.textContent) && newRow.previousSibling.lastChild.previousSibling.textContent === obj.dishes) dish.textContent = "";
-    else dish.textContent = obj.dishes;
-
-    if ((newRow.previousSibling.firstChild.nextSibling.textContent) && newRow.previousSibling.firstChild.nextSibling.textContent === obj.gitter) gitter.textContent = "";
-    else gitter.textContent = obj.gitter;
-
-    if ((newRow.previousSibling.firstChild.textContent) && newRow.previousSibling.firstChild.textContent === obj.users) person.textContent = "";
-    else person.textContent = obj.users;
+    dish.textContent = obj.dishes;
+    gitter.textContent = obj.gitter;
+    person.textContent = obj.users;
 
     newRow.appendChild(person);
     newRow.appendChild(gitter);
