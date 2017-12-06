@@ -11,6 +11,43 @@
   <body>
     <main>
         <h1>What the FAC is for dinner?</h1>
+        <button class="login" id="login-button">Log-in</button>
+        <button class="signup" id="signup-button">Sign up</button>
+      <div class="modal" id="loginModal">
+        <div class="modalContent">
+          <span class="close" id="closeLogin">&times;</span>
+          <form action="/logIn" method="POST">
+            <label for "gitterhandle">Gitter Handle:
+                <input name="gitterhandle" type="text" placeholder="Enter your Gitter handle" required>
+            </label>
+            <label for "password">Password:
+                <input name="password" type="password" required>
+            </label>
+            <input type="submit" value="Log In">
+          </form>
+        </div>
+      </div>
+      <div class="modal" id="signUpModal">
+        <div class="modalContent" id="signUpContent">
+          <span class="close" id="closeSignUp">&times;</span>
+          <form action='/signUp' method="POST">
+            <label for "name">Name:
+               <input name="name" type="text" placeholder="Enter your name" required>
+           </label>
+           <label for "gitterhandle">Gitter Handle:
+               <input name="gitterhandle" type="text" placeholder="Enter your Gitter handle" required>
+           </label>
+           <label for "password">Password:
+               <input name="password" type="password" required>
+           </label>
+           <label for "confirm_password">Confirm password:
+            <input name="confirm_password" type="password" required>
+          </label>
+          <input type="submit" value="Sign Up">
+         </form>
+        </div>
+      </div>
+
       <section id="form-section" class="form-section">
       <form class="form" action="/addDishes" method="post" id="the-form">
         <input name="name" type="text" class="input" placeholder="Enter your first name" id="input-name" required>
@@ -18,7 +55,7 @@
         <input name="gitterhandle" type="text" class="input" placeholder="Enter your gitter handle" id="input-gitter" required>
         <input name="dish" type="text" class="input" placeholder="Enter your dish" id="input-dish" required></br>
 
-        
+
 
         <label for="Vegetarian">Vegetarian
           <input name="vegetarian" type="checkbox" class="checkbox" id="Vegetarian">
@@ -48,7 +85,10 @@
 
         </br>
         <button type="submit" class="button" id="submit-button">Add</button>
+
       </form>
+
+
     </section>
 
     <section id="results" class="results">
