@@ -140,27 +140,21 @@ const logInHandler = (req, res) => {
         res.writeHead(500);
         res.end('Internal Server Error');
       } else if (userExists) {
-        hashPassword(allTheData.password, (hashErr, hashedPw) => {
-          if (hashErr) {
+        logInQuery(allTheData.gitterhandle, (loginErr, loginData) => {
+          if (loginErr) {
             res.writeHead(500);
-            res.end('Internal Server Error - hashing password failed');
+            res.end('Internal Server Error - login query failed');
           } else {
-            logInQuery(allTheData.gitterhandle, (loginErr, loginData) => {
-              if (loginErr) {
+            const databasePassword = loginData.rows[0].password;
+            bcrypt.compare(allTheData.password, databasePassword, (compareErr, correct) => {
+              if (compareErr) {
                 res.writeHead(500);
-                res.end('Internal Server Error - login query failed');
+                res.end('Server error, bcrypt compare failed');
+              } else if (correct) {
+                console.log('Successful login!');
               } else {
-                bcrypt.compare(allTheData.password, loginData.rows[0].password, (compareErr, correct) => {
-                  if (compareErr) {
-                    res.writeHead(500);
-                    res.end('Server error, bcrypt compare failed');
-                  } else if (correct) {
-                    console.log('Successful login!');
-                  } else {
-                    res.writeHead(401);
-                    res.end('Incorrect Password!');
-                  }
-                });
+                res.writeHead(401);
+                res.end('Incorrect Password!');
               }
             });
           }
@@ -172,10 +166,6 @@ const logInHandler = (req, res) => {
     });
   });
 };
-
-
-
-
 
 module.exports = {
   homeHandler,
