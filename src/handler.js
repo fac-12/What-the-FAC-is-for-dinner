@@ -3,6 +3,7 @@ const path = require('path');
 const querystring = require('querystring');
 const getDishes = require('./queries/getDishes.js');
 const addDishes = require('./queries/addDishes');
+const bcrypt = require('bcryptjs');
 
 const homeHandler = (req, res) => {
   const filePath = path.join(__dirname, '..', 'public', 'index.html');
@@ -63,12 +64,6 @@ const addDishesHandler = (req, res) => {
   req.on('end', () => {
     allTheData = querystring.parse(allTheData);
 
-    Object.keys(allTheData).forEach((key) => {
-      allTheData[key] = allTheData[key].replace(/[/[<|>|*|%|!|@|=]/g, '');
-    });
-
-    console.log(allTheData);
-
     const newObject = {
       name: allTheData.name,
       gitterhandle: allTheData.gitterhandle,
@@ -96,9 +91,48 @@ const addDishesHandler = (req, res) => {
 };
 
 
+
+
+const signUpHandler = (req, res) => {
+  let allTheData = '';
+  req.on('data', (chunk) => {
+    allTheData += chunk;
+  });
+  req.on('end', () => {
+    allTheData = queryString.parse(allTheData);
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(allTheData.password, salt, (err, hashedPw) => {
+        if(err) {
+          res.writeHead(500);
+          res.end('Internal Server Error');
+        } else {
+          allTheData.password = hashedPw;
+          
+
+        }
+      })
+    })
+  })
+
+};
+
+
+
+
+const logInHandler = (request, response) => {
+
+
+};
+
+
+
+
+
 module.exports = {
   homeHandler,
   staticFileHandler,
   getDishesHandler,
   addDishesHandler,
+  logInHandler,
+  signUpHandler,
 };
