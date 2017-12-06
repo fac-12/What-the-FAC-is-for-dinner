@@ -3,6 +3,8 @@ const path = require('path');
 const querystring = require('querystring');
 const getDishes = require('./queries/getDishes.js');
 const addDishes = require('./queries/addDishes');
+const checkUser = require('./queries/checkUser');
+const logInQuery = require('./queries/logIn');
 const bcrypt = require('bcryptjs');
 
 const homeHandler = (req, res) => {
@@ -90,8 +92,12 @@ const addDishesHandler = (req, res) => {
   });
 };
 
-
-
+const hashPassword = (password, callback) => {
+  bcrypt.genSalt(10, (saltErr, salt) => {
+    if (saltErr) console.log(saltErr);
+    else bcrypt.hash(password, salt, callback);
+  });
+};
 
 const signUpHandler = (req, res) => {
   let allTheData = '';
@@ -107,7 +113,7 @@ const signUpHandler = (req, res) => {
           res.end('Internal Server Error');
         } else {
           allTheData.password = hashedPw;
-          
+
 
         }
       })
@@ -119,9 +125,52 @@ const signUpHandler = (req, res) => {
 
 
 
-const logInHandler = (request, response) => {
+const logInHandler = (req, res) => {
+  let allTheData = '';
 
+  req.on('data', (chunk) => {
+    allTheData += chunk;
+  });
 
+  req.on('end', () => {
+    allTheData = querystring.parse(allTheData);
+    checkUser(allTheData.gitterhandle, (err, resData) => {
+      const userExists = resData.rows[0].case;
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal Server Error');
+      } else if (userExists) {
+        hashPassword(allTheData.password, (hashErr, hashedPw) => {
+          if (hashErr) {
+            res.writeHead(500);
+            res.end('Internal Server Error - hashing password failed');
+          } else {
+            logInQuery(allTheData.gitterhandle, (loginErr, loginData) => {
+              if (loginErr) {
+                res.writeHead(500);
+                res.end('Internal Server Error - login query failed');
+              } else {
+                bcrypt.compare(allTheData.password, loginData.rows[0].password, (compareErr, correct) => {
+                  if (compareErr) {
+                    res.writeHead(500);
+                    res.end('Server error, bcrypt compare failed');
+                  } else if (correct) {
+                    console.log('Successful login!');
+                  } else {
+                    res.writeHead(401);
+                    res.end('Incorrect Password!');
+                  }
+                });
+              }
+            });
+          }
+        });
+      } else {
+        res.writeHead(401);
+        res.end('You are not a user, please sign-up!');
+      }
+    });
+  });
 };
 
 
