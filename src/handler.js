@@ -63,12 +63,7 @@ const addDishesHandler = (req, res) => {
   });
   req.on('end', () => {
     allTheData = querystring.parse(allTheData);
-
-    // Object.keys(allTheData).forEach((key) => {
-    //   allTheData[key] = allTheData[key].replace(/[/[<|>|*|%|!|@|=]/g, '');
-    // });
-
-    console.log(allTheData);
+  }
 
     const newObject = {
       name: allTheData.name,
