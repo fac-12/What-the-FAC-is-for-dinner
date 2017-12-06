@@ -3,6 +3,8 @@ const {
   staticFileHandler,
   getDishesHandler,
   addDishesHandler,
+  logInHandler,
+  signUpHandler,
 } = require('./handler.js');
 
 const router = (request, response) => {
@@ -17,6 +19,10 @@ const router = (request, response) => {
     getDishesHandler(request, response);
   } else if (url === 'addDishes') {
     addDishesHandler(request, response);
+  } else if (url === 'signUp') {
+    signUpHandler(request, response);
+  } else if (url === 'logIn') {
+    logInHandler(request, response);
   } else {
     response.writeHead(404, { 'Content-type': 'text/plain' });
     response.end('Page not found');
