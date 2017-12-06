@@ -61,7 +61,7 @@ button:focus{
 }
 
 .modalContent {
-  background-color: red;
+  background-color:  rgb(255, 255, 255);
   margin: 15% auto;
   padding: 20px;
   border: 1px solid blue;
