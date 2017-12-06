@@ -6,6 +6,7 @@ const addDishes = require('./queries/addDishes');
 const bcrypt = require('bcryptjs');
 const checkUser = require('./queries/checkUser');
 const addUser = require('./queries/addUser');
+const jwt = require('jsonwebtoken');
 
 const homeHandler = (req, res) => {
   const filePath = path.join(__dirname, '..', 'public', 'index.html');
@@ -126,7 +127,8 @@ const signUpHandler = (req, res) => {
                     res.writeHead(500);
                     res.end('Internal Server Error');
                   } else {
-                    res.writeHead(302, { Location: '/logIn' });
+                    const token = jwt.sign({ username: allTheData.gitterhandle, logged_in: true }, 'happiness');
+                    res.writeHead(302, { Location: '/', 'Set-Cookie': `token=${token}; HttpOnly; Max-Age=9000` });
                     res.end();
                   }
                 });
@@ -143,6 +145,7 @@ const logInHandler = (request, response) => {
 
 
 };
+
 
 
 
