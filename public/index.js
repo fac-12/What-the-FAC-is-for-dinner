@@ -1,6 +1,41 @@
 /*eslint-disable*/
 
 var table = document.getElementById('table');
+var loginModal = document.getElementById('loginModal');
+var loginButton = document.getElementById('login-button');
+var closeLogIn = document.getElementById('closeLogin');
+var signUpModal = document.getElementById('signUpModal');
+var signUpButton = document.getElementById('signup-button');
+var closeSignUp = document.getElementById('closeSignUp');
+
+loginButton.addEventListener("click", function(){
+  loginModal.style.display = "block";
+})
+
+closeLogIn.addEventListener("click", function(){
+  loginModal.style.display= "none";
+})
+
+window.addEventListener("click", function(e){
+  if(e.target == loginModal){
+    loginModal.style.display = "none";
+  }
+})
+
+signUpButton.addEventListener("click", function(){
+  signUpModal.style.display = "block";
+})
+
+closeSignUp.addEventListener("click", function(){
+  signUpModal.style.display= "none";
+})
+
+window.addEventListener("click", function(e){
+  if(e.target == signUpModal){
+    signUpModal.style.display = "none";
+  }
+})
+
 
 var xhr = new XMLHttpRequest();
 
