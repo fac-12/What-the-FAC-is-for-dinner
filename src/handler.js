@@ -4,6 +4,8 @@ const querystring = require('querystring');
 const getDishes = require('./queries/getDishes.js');
 const addDishes = require('./queries/addDishes');
 const bcrypt = require('bcryptjs');
+const checkUser = require('./queries/checkUser');
+const addUser = require('./queries/addUser');
 
 const homeHandler = (req, res) => {
   const filePath = path.join(__dirname, '..', 'public', 'index.html');
@@ -99,25 +101,43 @@ const signUpHandler = (req, res) => {
     allTheData += chunk;
   });
   req.on('end', () => {
-    allTheData = queryString.parse(allTheData);
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(allTheData.password, salt, (err, hashedPw) => {
-        if(err) {
-          res.writeHead(500);
-          res.end('Internal Server Error');
-        } else {
-          allTheData.password = hashedPw;
-          
-
-        }
-      })
-    })
-  })
-
+    allTheData = querystring.parse(allTheData);
+    checkUser(allTheData.gitterhandle, (err, checkUserRes) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal Server Error');
+      } else if (checkUserRes === true) {
+        res.writeHead(409);
+        res.end('This user is already registered! Please log in :)');
+      } else {
+        bcrypt.genSalt(10, (saltErr, salt) => {
+          if (saltErr) {
+            res.writeHead(500);
+            res.end('Internal Server Error');
+          } else {
+            bcrypt.hash(allTheData.password, salt, (hashErr, hashedPw) => {
+              if (hashErr) {
+                res.writeHead(500);
+                res.end('Internal Server Error');
+              } else {
+                allTheData.password = hashedPw;
+                addUser(allTheData, (addUserErr) => {
+                  if (addUserErr) {
+                    res.writeHead(500);
+                    res.end('Internal Server Error');
+                  } else {
+                    res.writeHead(302, { Location: '/logIn' });
+                    res.end();
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  });
 };
-
-
-
 
 const logInHandler = (request, response) => {
 

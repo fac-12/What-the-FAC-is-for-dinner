@@ -7,13 +7,13 @@ const getDishes = (cb) => {
     FROM users, dishes, dietary, connections WHERE users.id = dishes.makerid
     AND dishes.id = connections.dish_id AND connections.dietary_id = dietary.id
     GROUP BY users.name, users.gitterhandle, dishes.name`, (err, res) => {
-    if (err) {
-      console.log('there is error');
-      cb(err);
-    } else {
-      cb(null, res.rows);
-    }
-  });
+      if (err) {
+        console.log('there is error');
+        cb(err);
+      } else {
+        cb(null, res.rows);
+      }
+    });
 };
 
 module.exports = getDishes;
