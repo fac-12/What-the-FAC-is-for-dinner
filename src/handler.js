@@ -6,6 +6,10 @@ const addDishes = require('./queries/addDishes');
 const checkUser = require('./queries/checkUser');
 const logInQuery = require('./queries/logIn');
 const bcrypt = require('bcryptjs');
+const cookie = require('cookie');
+const jwt = require('jsonwebtoken');
+require('env2')('config.env');
+const secret = process.env.SECRET;
 
 const homeHandler = (req, res) => {
   const filePath = path.join(__dirname, '..', 'public', 'index.html');
@@ -152,6 +156,16 @@ const logInHandler = (req, res) => {
                 res.end('Server error, bcrypt compare failed');
               } else if (correct) {
                 console.log('Successful login!');
+                jwt.sign({ name: allTheData.gitterhandle}, secret, (err, token) => {
+                  if (err) {
+                    res.writeHead(500);
+                    res.end('Server Error, jwt signing failed');
+                  }
+                  else {
+                    res.writeHead(302, { 'Location': '/', 'Set-Cookie': `token=${token}; Max-Age=100` });
+                    res.end();
+                  }
+                });
               } else {
                 res.writeHead(401);
                 res.end('Incorrect Password!');
