@@ -96,6 +96,9 @@ const addDishesHandler = (req, res) => {
   });
 };
 
+
+
+
 const signUpHandler = (req, res) => {
   let allTheData = '';
   req.on('data', (chunk) => {
@@ -103,9 +106,24 @@ const signUpHandler = (req, res) => {
   });
   req.on('end', () => {
     allTheData = queryString.parse(allTheData);
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(allTheData.password, salt, (err, hashedPw) => {
+        if(err) {
+          res.writeHead(500);
+          res.end('Internal Server Error');
+        } else {
+          allTheData.password = hashedPw;
+          
+
+        }
+      })
+    })
   })
 
 };
+
+
+
 
 const logInHandler = (request, response) => {
 
