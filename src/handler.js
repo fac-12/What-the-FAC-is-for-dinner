@@ -63,7 +63,6 @@ const addDishesHandler = (req, res) => {
   });
   req.on('end', () => {
     allTheData = querystring.parse(allTheData);
-  }
 
     const newObject = {
       name: allTheData.name,
