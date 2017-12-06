@@ -162,7 +162,7 @@ const logInHandler = (req, res) => {
                     res.end('Server Error, jwt signing failed');
                   }
                   else {
-                    res.writeHead(302, { 'Location': '/', 'Set-Cookie': `token=${token}; Max-Age=100` });
+                    res.writeHead(302, { 'Location': '/', 'Set-Cookie': `token=${token}; HttpOnly; Max-Age=100` });
                     res.end();
                   }
                 });
