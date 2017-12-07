@@ -90,10 +90,9 @@ const addDishesHandler = (req, res) => {
       });
       req.on('end', () => {
         allTheData = querystring.parse(allTheData);
-
         const newObject = {
           dish: allTheData.dish,
-          dietary: Object.keys(allTheData).slice(3),
+          dietary: Object.keys(allTheData).slice(1),
         };
         if (newObject.dietary.length === 0) newObject.dietary = ['none of the above'];
         addDishes((err, resData) => {
