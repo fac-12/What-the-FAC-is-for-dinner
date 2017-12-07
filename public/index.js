@@ -6,8 +6,14 @@ var loginButton = document.getElementById('login-button');
 var logoutButton = document.getElementById('logout-button');
 var closeLogIn = document.getElementById('closeLogin');
 var signUpModal = document.getElementById('signUpModal');
+var signUpForm = document.getElementById('signUpForm');
 var signUpButton = document.getElementById('signup-button');
+var modalSignUpButton = document.getElementById('modalSignUpButton');
 var closeSignUp = document.getElementById('closeSignUp');
+var nameinput = document.getElementById('nameinput');
+var messages = document.getElementById('messages');
+var originalpassword = document.getElementById('originalpassword');
+var confirmpassword = document.getElementById('confirmpassword');
 var userInfo = document.getElementById('userInfo');
 var formSection = document.getElementById('form-section')
 
@@ -40,6 +46,13 @@ signUpButton.addEventListener("click", function(){
   signUpModal.style.display = "block";
 })
 
+modalSignUpButton.addEventListener("click", function() {
+  console.log('submitted');
+  while(messages.firstChild){
+    messages.removeChild(messages.firstChild);
+  }
+});
+
 closeSignUp.addEventListener("click", function(){
   signUpModal.style.display= "none";
 })
@@ -50,6 +63,36 @@ window.addEventListener("click", function(e){
   }
 })
 
+nameinput.addEventListener('invalid', function(e){
+  e.preventDefault();
+  while(messages.firstChild){
+    messages.removeChild(messages.firstChild);
+      }
+  var p = document.createElement('p');
+  p.textContent = 'Please enter only letters for your name';
+  messages.appendChild(p);
+});
+
+
+confirmpassword.addEventListener('keyup', function(e){
+  if(e.target.value === originalpassword.value) {
+      e.target.className = "passwordMatch";
+  } else {
+    e.target.className = "passwordNotMatch";
+  }
+})
+
+signUpForm.addEventListener("submit", function(e){
+  if (originalpassword.value !== confirmpassword.value){
+    e.preventDefault();
+    while(messages.firstChild){
+      messages.removeChild(messages.firstChild);
+    }
+  var p = document.createElement('p');
+  p.textContent = 'Passwords do not match!';
+  messages.appendChild(p);
+  }
+})
 
 var xhr = new XMLHttpRequest();
 

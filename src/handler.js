@@ -130,6 +130,9 @@ const signUpHandler = (req, res) => {
   });
   req.on('end', () => {
     allTheData = querystring.parse(allTheData);
+    if (!allTheData.gitterhandle.startsWith('@')) {
+      allTheData.gitterhandle = `@${allTheData.gitterhandle}`;
+    }
     checkUser(allTheData.gitterhandle, (err, resData) => {
       const userExists = resData[0].case;
       if (err) {
@@ -155,9 +158,7 @@ const signUpHandler = (req, res) => {
                     res.writeHead(500);
                     res.end('Internal Server Error, problem with addUser query');
                   } else {
-
                     const token = jwt.sign({ username: allTheData.gitterhandle, logged_in: true }, secret);
-
                     res.writeHead(302, { Location: '/', 'Set-Cookie': `token=${token}; HttpOnly; Max-Age=9000` });
                     res.end();
                   }
@@ -180,6 +181,9 @@ const logInHandler = (req, res) => {
 
   req.on('end', () => {
     allTheData = querystring.parse(allTheData);
+    if (!allTheData.gitterhandle.startsWith('@')) {
+      allTheData.gitterhandle = `@${allTheData.gitterhandle}`;
+    }
     checkUser(allTheData.gitterhandle, (err, resData) => {
       const userExists = resData[0].case;
       if (err) {

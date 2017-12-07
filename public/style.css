@@ -37,6 +37,20 @@ input[type="text"]:focus {
   border: 3px solid white;
   outline: none;
 }
+input[type="password"]:invalid:focus {
+  border: 3px solid red;
+  outline: none;
+}
+
+.passwordMatch {
+  border: 3px solid blue;
+  outline: none;
+}
+
+.passwordNotMatch {
+  border: 3px solid red;
+  outline: none;
+}
 
 .checkbox {
   margin: 1rem;
