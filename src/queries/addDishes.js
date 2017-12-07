@@ -1,6 +1,7 @@
 const databaseConnection = require('../database/db_connections.js');
 
 const addDishes = (cb, dishName, dietaryArray, tokenGitter) => {
+  console.log(tokenGitter);
   databaseConnection.query(`INSERT INTO dishes (name, makerID) VALUES ($1, (SELECT id FROM users WHERE gitterhandle = $2));`,[dishName, tokenGitter], (err, res) => {
     if (err) {
       cb(err);

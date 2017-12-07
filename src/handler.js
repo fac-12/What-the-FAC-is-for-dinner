@@ -72,7 +72,7 @@ const addDishesHandler = (req, res) => {
     const cookieStr = cookie.parse(req.headers.cookie).token;
     const payload = jwt.verify(cookieStr, secret);
     if (payload.logged_in === true) {
-      let tokenGitter = payload.gitterhandle;
+      let tokenGitter = payload.username;
       let allTheData = '';
       req.on('data', (chunk) => {
         allTheData += chunk;
@@ -81,8 +81,6 @@ const addDishesHandler = (req, res) => {
         allTheData = querystring.parse(allTheData);
 
         const newObject = {
-          name: allTheData.name,
-          gitterhandle: allTheData.gitterhandle,
           dish: allTheData.dish,
           dietary: Object.keys(allTheData).slice(3),
         };
@@ -102,7 +100,7 @@ const addDishesHandler = (req, res) => {
             res.writeHead(302, { Location: '/' });
             res.end();
           }
-        }, newObject.name, newObject.dish, newObject.dietary, tokenGitter);
+        }, newObject.dish, newObject.dietary, tokenGitter);
       });
     } else {
       res.writeHead(401);
