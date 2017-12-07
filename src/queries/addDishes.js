@@ -1,11 +1,11 @@
 const databaseConnection = require('../database/db_connections.js');
 
-const addDishes = (cb, userName, userHandle, dishName, dietaryArray) => {
-  databaseConnection.query(`INSERT INTO users (name, gitterhandle) VALUES ($1, $2);`,[userName, userHandle], (err, res) => {
-    if (err) {
-      cb(err);
-    } else {
-      databaseConnection.query(`INSERT INTO dishes (name, makerID) VALUES ($1, (SELECT id FROM users WHERE gitterhandle = $2));`,[dishName, userHandle], (err, res) => {
+const addDishes = ((cb, dishName, dietaryArray, tokenGitter)) => {
+  // databaseConnection.query(`INSERT INTO users (name, gitterhandle) VALUES ($1, $2);`,[userName, userHandle], (err, res) => {
+  //   if (err) {
+  //     cb(err);
+    // } else {
+      databaseConnection.query(`INSERT INTO dishes (name, makerID) VALUES ($1, (SELECT id FROM users WHERE gitterhandle = $2));`,[dishName, tokenGitter], (err, res) => {
         if (err) {
           cb(err);
         } else {
