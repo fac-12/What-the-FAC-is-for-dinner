@@ -70,7 +70,7 @@ const getDishesHandler = (req, res) => {
 const addDishesHandler = (req, res) => {
   if (req.headers.cookie) {
     const cookieStr = cookie.parse(req.headers.cookie).token;
-    const payload = jwt.verify(cookieStr, SECRET);
+    const payload = jwt.verify(cookieStr, secret);
     if (payload.logged_in === true) {
       let tokenGitter = payload.gitterhandle;
       let allTheData = '';
@@ -87,7 +87,7 @@ const addDishesHandler = (req, res) => {
           dietary: Object.keys(allTheData).slice(3),
         };
         if (newObject.dietary.length === 0) newObject.dietary = ['none of the above'];
-        addDishes((err, tokenGitter) => {
+        addDishes((err, resData) => {
           if (err) {
             console.log(err.code, 'THIS IS ERR CODE');
             if (err.code === '23505') {
@@ -102,7 +102,7 @@ const addDishesHandler = (req, res) => {
             res.writeHead(302, { Location: '/' });
             res.end();
           }
-        }, newObject.name, newObject.gitterhandle, newObject.dish, newObject.dietary);
+        }, newObject.name, newObject.dish, newObject.dietary, tokenGitter);
       });
     } else {
       res.writeHead(401);
