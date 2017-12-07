@@ -23,7 +23,7 @@ As our community dinner is approaching, we decided to make a web app which allow
 
 We started by creating a schema, which contained 4 tables of users, dishes, dietary requirements, and the connnections between the dishes and the dietary requirements. This allowed us to visualise how the tables would interact.
 
-![](./wtf-schema.png)
+![](What-the-FAC-is-for-dinner/Screen Shot 2017-12-07 at 17.13.07.png)
 
 Our software architecture identified that we needed a couple of different bespoke routes through the server. We decided on a'Get Dishes’ route which would run every time the page loaded to display all dishes and their makers on the page, and an ‘Add Dishes’ route which would run every time the submit button was pressed. Our stretch goal was to be able to filter the dishes by different criteria.
 
