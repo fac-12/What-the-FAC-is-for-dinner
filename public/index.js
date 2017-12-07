@@ -7,6 +7,10 @@ var closeLogIn = document.getElementById('closeLogin');
 var signUpModal = document.getElementById('signUpModal');
 var signUpButton = document.getElementById('signup-button');
 var closeSignUp = document.getElementById('closeSignUp');
+var nameinput = document.getElementById('nameinput');
+var messages = document.getElementById('messages');
+var originalpassword = document.getElementById('originalpassword');
+var confirmpassword = document.getElementById('confirmpassword');
 
 loginButton.addEventListener("click", function(){
   loginModal.style.display = "block";
@@ -35,6 +39,30 @@ window.addEventListener("click", function(e){
     signUpModal.style.display = "none";
   }
 })
+
+nameinput.addEventListener('invalid', function(e){
+  e.preventDefault();
+
+  while(messages.firstChild){
+    messages.removeChild(messages.firstChild);
+  }
+
+  var p = document.createElement('p');
+  p.textContent = 'Please enter only letters for your name';
+  messages.appendChild(p);
+});
+
+confirmpassword.addEventListener('keyup', function(e){
+  console.log(e.target.value);
+  console.log(originalpassword.value);
+  if(e.target.value === originalpassword.value) {
+      e.target.className = "passwordMatch";
+  } else {
+    e.target.className = "passwordNotMatch";
+  }
+
+})
+
 
 
 var xhr = new XMLHttpRequest();

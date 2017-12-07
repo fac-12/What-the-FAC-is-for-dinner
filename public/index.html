@@ -30,26 +30,28 @@
       <div class="modal" id="signUpModal">
         <div class="modalContent" id="signUpContent">
           <span class="close" id="closeSignUp">&times;</span>
-          <form action='/signUp' method="POST">
+          <form action='/signUp' method="POST" >
             <label for "name">Name:
-               <input name="name" type="text" placeholder="Enter your name" required>
+               <input name="name" type="text" placeholder="Enter your name" pattern="[A-z\W]" maxlength="30" id="nameinput" required>
            </label>
            <label for "gitterhandle">Gitter Handle:
                <input name="gitterhandle" type="text" placeholder="Enter your Gitter handle" required>
            </label>
            <label for "password">Password:
-               <input name="password" type="password" required>
+               <input name="password" type="password" minlength="6" id="originalpassword" required>
            </label>
            <label for "confirm_password">Confirm password:
-            <input name="confirm_password" type="password" required>
+            <input name="confirm_password" type="password" id="confirmpassword" required>
           </label>
           <input type="submit" value="Sign Up">
          </form>
+         <section id="messages">
+         </section>
         </div>
       </div>
 
       <section id="form-section" class="form-section">
-      <form class="form" action="/addDishes" method="post" id="the-form">        
+      <form class="form" action="/addDishes" method="post" id="the-form">
         <input name="dish" type="text" class="input" placeholder="Enter your dish" id="input-dish" required></br>
 
 
