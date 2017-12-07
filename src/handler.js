@@ -111,29 +111,30 @@ const signUpHandler = (req, res) => {
   });
   req.on('end', () => {
     allTheData = querystring.parse(allTheData);
-    checkUser(allTheData.gitterhandle, (err, checkUserRes) => {
+    checkUser(allTheData.gitterhandle, (err, resData) => {
+      const userExists = resData[0].case;
       if (err) {
         res.writeHead(500);
-        res.end('Internal Server Error');
-      } else if (checkUserRes === true) {
+        res.end('Internal Server Error, problem with checkUser query');
+      } else if (userExists) {
         res.writeHead(409);
         res.end('This user is already registered! Please log in :)');
       } else {
         bcrypt.genSalt(10, (saltErr, salt) => {
           if (saltErr) {
             res.writeHead(500);
-            res.end('Internal Server Error');
+            res.end('Internal Server Error, problem with generating salt');
           } else {
             bcrypt.hash(allTheData.password, salt, (hashErr, hashedPw) => {
               if (hashErr) {
                 res.writeHead(500);
-                res.end('Internal Server Error');
+                res.end('Internal Server Error, problem with generating Hashed password');
               } else {
                 allTheData.password = hashedPw;
                 addUser(allTheData, (addUserErr) => {
                   if (addUserErr) {
                     res.writeHead(500);
-                    res.end('Internal Server Error');
+                    res.end('Internal Server Error, problem with addUser query');
                   } else {
                     const token = jwt.sign({ username: allTheData.gitterhandle, logged_in: true }, secret);
                     res.writeHead(302, { Location: '/', 'Set-Cookie': `token=${token}; HttpOnly; Max-Age=9000` });
