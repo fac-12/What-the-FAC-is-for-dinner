@@ -1,4 +1,5 @@
 body {
+  height: 100vh;
   background-image: url("http://blogs.plos.org/obesitypanacea/files/2016/12/Christmas-Dinner.jpg");
   background-repeat: no-repeat;
   background-position: center;
@@ -18,6 +19,11 @@ body {
   font-size: 1.5rem;
   margin: 0 auto;
   font-family: 'Josefin Sans', sans-serif;
+}
+
+.logout {
+  margin: 0 auto;
+  display: none;
 }
 
 input[type="text"]{
@@ -113,9 +119,15 @@ h1 {
   margin: 0;
 }
 
+.userInfo {
+  display: none;
+  justify-content: space-between;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
 .form-section {
   font-family: 'Josefin Sans', sans-serif;
-  display: flex;
+  display: none;
   padding: 2rem 1rem 2rem 1rem;
 }
 table {
