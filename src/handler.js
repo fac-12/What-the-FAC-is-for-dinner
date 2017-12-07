@@ -3,6 +3,7 @@ const path = require('path');
 const querystring = require('querystring');
 const getDishes = require('./queries/getDishes.js');
 const addDishes = require('./queries/addDishes');
+const addUser = require('./queries/addUser');
 const checkUser = require('./queries/checkUser');
 const logInQuery = require('./queries/logIn');
 const bcrypt = require('bcryptjs');
@@ -109,25 +110,44 @@ const signUpHandler = (req, res) => {
     allTheData += chunk;
   });
   req.on('end', () => {
-    allTheData = queryString.parse(allTheData);
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(allTheData.password, salt, (err, hashedPw) => {
-        if(err) {
-          res.writeHead(500);
-          res.end('Internal Server Error');
-        } else {
-          allTheData.password = hashedPw;
-
-
-        }
-      })
-    })
-  })
-
+    allTheData = querystring.parse(allTheData);
+    checkUser(allTheData.gitterhandle, (err, checkUserRes) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal Server Error');
+      } else if (checkUserRes === true) {
+        res.writeHead(409);
+        res.end('This user is already registered! Please log in :)');
+      } else {
+        bcrypt.genSalt(10, (saltErr, salt) => {
+          if (saltErr) {
+            res.writeHead(500);
+            res.end('Internal Server Error');
+          } else {
+            bcrypt.hash(allTheData.password, salt, (hashErr, hashedPw) => {
+              if (hashErr) {
+                res.writeHead(500);
+                res.end('Internal Server Error');
+              } else {
+                allTheData.password = hashedPw;
+                addUser(allTheData, (addUserErr) => {
+                  if (addUserErr) {
+                    res.writeHead(500);
+                    res.end('Internal Server Error');
+                  } else {
+                    const token = jwt.sign({ username: allTheData.gitterhandle, logged_in: true }, secret);
+                    res.writeHead(302, { Location: '/', 'Set-Cookie': `token=${token}; HttpOnly; Max-Age=9000` });
+                    res.end();
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  });
 };
-
-
-
 
 const logInHandler = (req, res) => {
   let allTheData = '';
@@ -139,7 +159,7 @@ const logInHandler = (req, res) => {
   req.on('end', () => {
     allTheData = querystring.parse(allTheData);
     checkUser(allTheData.gitterhandle, (err, resData) => {
-      const userExists = resData.rows[0].case;
+      const userExists = resData[0].case;
       if (err) {
         res.writeHead(500);
         res.end('Internal Server Error');
@@ -156,7 +176,7 @@ const logInHandler = (req, res) => {
                 res.end('Server error, bcrypt compare failed');
               } else if (correct) {
                 console.log('Successful login!');
-                jwt.sign({ name: allTheData.gitterhandle}, secret, (err, token) => {
+                jwt.sign({ username: allTheData.gitterhandle, logged_in: true }, secret, (err, token) => {
                   if (err) {
                     res.writeHead(500);
                     res.end('Server Error, jwt signing failed');
