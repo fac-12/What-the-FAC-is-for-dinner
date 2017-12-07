@@ -10,8 +10,9 @@
     <title>What the FAC is for dinner?</title>
   </head>
   <body>
+    <div id="snow">
     <main>
-        <h1>What the FAC is for dinner?</h1>
+        <h1 id="title">What the FAC is for dinner?</h1>
         <div id="userInfo" class="userInfo"></div>
         <button class="logout" id="logout-button">Log out</button>
         <button class="login" id="login-button">Log in</button>
@@ -26,7 +27,7 @@
             <label for "password">Password:
                 <input name="password" type="password" required>
             </label>
-            <input type="submit" value="Log In">
+            <input type="submit" class="button" value="Log In">
           </form>
         </div>
       </div>
@@ -36,17 +37,17 @@
           <form action='/signUp' method="POST" id="signUpForm">
             <label for "name">Name:
                <input name="name" type="text" placeholder="Enter your name" pattern="[A-Za-z\s]+" maxlength="30" id="nameinput" required>
-           </label>
+           </label><br>
            <label for "gitterhandle">Gitter Handle:
                <input name="gitterhandle" type="text" placeholder="Enter your Gitter handle" required>
-           </label>
+           </label><br>
            <label for "password">Password:
                <input name="password" type="password" minlength="6" id="originalpassword" required>
-           </label>
+           </label><br>
            <label for "confirm_password">Confirm password:
             <input name="confirm_password" type="password" id="confirmpassword" required>
           </label>
-          <input type="submit" value="Sign Up" id="modalSignUpButton">
+          <input type="submit" class="button" value="Sign Up" id="modalSignUpButton">
          </form>
          <section id="messages">
          </section>
@@ -103,6 +104,7 @@
       </table>
     </section>
     </main>
+  </div>
   </body>
   <script type="text/javascript" src='public/index.js'></script>
 </html>
