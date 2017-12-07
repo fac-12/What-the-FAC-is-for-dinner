@@ -6,14 +6,8 @@ var loginButton = document.getElementById('login-button');
 var logoutButton = document.getElementById('logout-button');
 var closeLogIn = document.getElementById('closeLogin');
 var signUpModal = document.getElementById('signUpModal');
-var signUpForm = document.getElementById('signUpForm');
 var signUpButton = document.getElementById('signup-button');
-var modalSignUpButton = document.getElementById('modalSignUpButton');
 var closeSignUp = document.getElementById('closeSignUp');
-var nameinput = document.getElementById('nameinput');
-var messages = document.getElementById('messages');
-var originalpassword = document.getElementById('originalpassword');
-var confirmpassword = document.getElementById('confirmpassword');
 var userInfo = document.getElementById('userInfo');
 var formSection = document.getElementById('form-section')
 
@@ -22,7 +16,7 @@ logoutButton.addEventListener("click", function(){
   xhr.onreadystatechange = function() {
     if(this.readyState == 4 && this.status == 302){
       location.reload();
-    }
+      }
   }
   xhr.open("GET", "/logOut", true);
   xhr.send();
@@ -46,13 +40,6 @@ signUpButton.addEventListener("click", function(){
   signUpModal.style.display = "block";
 })
 
-modalSignUpButton.addEventListener("click", function() {
-  console.log('submitted');
-  while(messages.firstChild){
-    messages.removeChild(messages.firstChild);
-  }
-});
-
 closeSignUp.addEventListener("click", function(){
   signUpModal.style.display= "none";
 })
@@ -63,36 +50,6 @@ window.addEventListener("click", function(e){
   }
 })
 
-nameinput.addEventListener('invalid', function(e){
-  e.preventDefault();
-  while(messages.firstChild){
-    messages.removeChild(messages.firstChild);
-      }
-  var p = document.createElement('p');
-  p.textContent = 'Please enter only letters for your name';
-  messages.appendChild(p);
-});
-
-
-confirmpassword.addEventListener('keyup', function(e){
-  if(e.target.value === originalpassword.value) {
-      e.target.className = "passwordMatch";
-  } else {
-    e.target.className = "passwordNotMatch";
-  }
-})
-
-signUpForm.addEventListener("submit", function(e){
-  if (originalpassword.value !== confirmpassword.value){
-    e.preventDefault();
-    while(messages.firstChild){
-      messages.removeChild(messages.firstChild);
-    }
-  var p = document.createElement('p');
-  p.textContent = 'Passwords do not match!';
-  messages.appendChild(p);
-  }
-})
 
 var xhr = new XMLHttpRequest();
 
@@ -100,7 +57,7 @@ xhr.onreadystatechange = function() {
   if(this.readyState == 4 && this.status == 200){
     var allDishes = JSON.parse(xhr.responseText);
     renderData(allDishes);
-  }
+    }
 }
 xhr.open("GET", "/getDishes", true);
 xhr.send();
@@ -111,18 +68,12 @@ var renderData = function(responseObj){
   }
   responseObj.forEach(function(obj){
     var newRow = document.createElement('tr');
-    newRow.classList = "table-row";
     table.appendChild(newRow);
 
     var person = document.createElement('td');
     var gitter = document.createElement('td');
     var dish = document.createElement('td');
     var diet = document.createElement('td');
-    var binCell = document.createElement('td');
-    var binIcon = document.createElement('i');
-    binIcon.classList = 'fa fa-trash';
-    binIcon.style.color = "grey";
-    binCell.appendChild(binIcon);
 
     diet.textContent = obj.diet;
     dish.textContent = obj.dishes;
@@ -133,21 +84,22 @@ var renderData = function(responseObj){
     newRow.appendChild(gitter);
     newRow.appendChild(dish);
     newRow.appendChild(diet);
-    newRow.appendChild(binIcon);
 
-  });
-
-  var userCheckXhr = new XMLHttpRequest();
-
-  userCheckXhr.onreadystatechange = function() {
-    if(this.readyState == 4 && this.status == 200){
-        var userData = JSON.parse(userCheckXhr.responseText);
-        displayUser(userData);
-      }
-  }
-  userCheckXhr.open("GET", "/userCheck", true);
-  userCheckXhr.send();
+  })
 }
+
+var userCheckXhr = new XMLHttpRequest();
+
+userCheckXhr.onreadystatechange = function() {
+  if(this.readyState == 4 && this.status == 200){
+      var userData = JSON.parse(userCheckXhr.responseText);
+      console.log(userData);
+      window.localStorage.add
+      displayUser(userData);
+    }
+}
+userCheckXhr.open("GET", "/userCheck", true);
+userCheckXhr.send();
 
 var displayUser = function(responseObj){
   var fromRes = document.createTextNode(responseObj.username);
@@ -157,38 +109,4 @@ var displayUser = function(responseObj){
   signUpButton.style.display = "none";
   formSection.style.display = "flex";
   logoutButton.style.display = "block";
-
-  var deleteHeader = document.getElementById('deleteHeader');
-
-  var tableRowArray = Array.from(document.getElementsByClassName('table-row'));
-
-  tableRowArray.forEach(function(row) {
-    if (row.childNodes[1].textContent === responseObj.username) {
-      row.childNodes[4].style.color = "black";
-      row.childNodes[4].style.cursor = "pointer";
-      row.childNodes[4].addEventListener('click', deleteAJAX);
-    };
-  });
-
-}
-
-var deleteAJAX = function(event) {
-  var row = event.target.parentNode;
-  var dishObj = {
-    name: row.childNodes[0].textContent,
-    gitterhandle: row.childNodes[1].textContent,
-    dish: row.childNodes[2].textContent,
-    dietary: row.childNodes[3].textContent.split(', '),
-  };
-
-  var deleteXHR = new XMLHttpRequest();
-
-  deleteXHR.onreadystatechange = function() {
-    if(this.readyState == 4 && this.status == 302){
-      location.reload();
-    }
-  }
-
-  deleteXHR.open('POST', '/deleteDish', true);
-  deleteXHR.send(JSON.stringify(dishObj));
 }
