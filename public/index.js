@@ -16,7 +16,6 @@ var originalpassword = document.getElementById('originalpassword');
 var confirmpassword = document.getElementById('confirmpassword');
 var userInfo = document.getElementById('userInfo');
 var formSection = document.getElementById('form-section');
-var formSection = document.getElementById('form-section');
  var title = document.getElementById('title');
 
 logoutButton.addEventListener("click", function(){
