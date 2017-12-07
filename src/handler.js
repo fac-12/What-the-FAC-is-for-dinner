@@ -12,12 +12,8 @@ const jwt = require('jsonwebtoken');
 require('env2')('config.env');
 const secret = process.env.SECRET;
 
-
 const homeHandler = (req, res) => {
-  if(req.headers.cookie) {
-
-  }
-  const filePath = path.join(__dirname, '..', 'public', 'index.html');
+   const filePath = path.join(__dirname, '..', 'public', 'index.html');
   fs.readFile(filePath, (err, file) => {
     if (err) {
       console.log(err);
@@ -40,7 +36,6 @@ const staticFileHandler = (req, res) => {
   };
 
   const extension = req.url.split('.')[1];
-
   const filePath = path.join(__dirname, '..', req.url);
 
   fs.readFile(filePath, (err, file) => {
