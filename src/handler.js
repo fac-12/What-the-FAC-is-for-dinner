@@ -62,6 +62,22 @@ const getDishesHandler = (req, res) => {
   });
 };
 
+const userCheckHandler = (req, res) => {
+  if (req.headers.cookie) {
+    const userJwt = cookie.parse(req.headers.cookie);
+    jwt.verify(userJwt.token, secret, (err, decoded) => {
+      if (err) {
+        res.writeHead(401);
+        res.end("Don't fuck with our cookies");
+      } else {
+        res.writeHead(200);
+        console.log(JSON.stringify(decoded));
+        res.end(JSON.stringify(decoded));
+      }
+    });
+  }
+};
+
 const addDishesHandler = (req, res) => {
   if (req.headers.cookie) {
     const cookieStr = cookie.parse(req.headers.cookie).token;
@@ -189,7 +205,7 @@ const logInHandler = (req, res) => {
                     res.end('Server Error, jwt signing failed');
                   }
                   else {
-                    res.writeHead(302, { 'Location': '/', 'Set-Cookie': `token=${token}; HttpOnly; Max-Age=100` });
+                    res.writeHead(302, { 'Location': '/', 'Set-Cookie': `token=${token}; HttpOnly; Max-Age=9000` });
                     res.end();
                   }
                 });
@@ -208,6 +224,24 @@ const logInHandler = (req, res) => {
   });
 };
 
+const logOutHandler = (req, res) => {
+  if (req.headers.cookie) {
+    const userJwt = cookie.parse(req.headers.cookie);
+    jwt.verify(userJwt.token, secret, (err) => {
+      if (err) {
+        res.writeHead(401);
+        res.end("Don't fuck with our cookies");
+      } else {
+        res.writeHead(302, {'Set-Cookie': 'token=; Max-Age=0' });
+        res.end();
+      }
+    });
+  } else {
+    res.writeHead(400);
+    res.end("You can't sign out if you're not signed in!");
+  }
+};
+
 module.exports = {
   homeHandler,
   staticFileHandler,
@@ -215,4 +249,6 @@ module.exports = {
   addDishesHandler,
   logInHandler,
   signUpHandler,
+  userCheckHandler,
+  logOutHandler,
 };

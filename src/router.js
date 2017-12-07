@@ -5,6 +5,8 @@ const {
   addDishesHandler,
   logInHandler,
   signUpHandler,
+  userCheckHandler,
+  logOutHandler,
 } = require('./handler.js');
 
 const router = (request, response) => {
@@ -15,6 +17,8 @@ const router = (request, response) => {
     homeHandler(request, response);
   } else if (url.includes('public')) {
     staticFileHandler(request, response, homeUrl);
+  } else if (url === 'userCheck') {
+    userCheckHandler(request, response);
   } else if (url === 'getDishes') {
     getDishesHandler(request, response);
   } else if (url === 'addDishes') {
@@ -23,6 +27,8 @@ const router = (request, response) => {
     signUpHandler(request, response);
   } else if (url === 'logIn') {
     logInHandler(request, response);
+  } else if (url === 'logOut') {
+    logOutHandler(request, response);
   } else {
     response.writeHead(404, { 'Content-type': 'text/plain' });
     response.end('Page not found');

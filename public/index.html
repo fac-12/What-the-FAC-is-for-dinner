@@ -11,7 +11,9 @@
   <body>
     <main>
         <h1>What the FAC is for dinner?</h1>
-        <button class="login" id="login-button">Log-in</button>
+        <div id="userInfo" class="userInfo"></div>
+        <button class="logout" id="logout-button">Log out</button>
+        <button class="login" id="login-button">Log in</button>
         <button class="signup" id="signup-button">Sign up</button>
       <div class="modal" id="loginModal">
         <div class="modalContent">
@@ -49,10 +51,8 @@
       </div>
 
       <section id="form-section" class="form-section">
-      <form class="form" action="/addDishes" method="post" id="the-form">        
+      <form class="form" action="/addDishes" method="post" id="the-form">
         <input name="dish" type="text" class="input" placeholder="Enter your dish" id="input-dish" required></br>
-
-
 
         <label for="Vegetarian">Vegetarian
           <input name="vegetarian" type="checkbox" class="checkbox" id="Vegetarian">
