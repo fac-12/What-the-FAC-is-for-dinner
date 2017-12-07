@@ -13,7 +13,7 @@ require('env2')('config.env');
 const secret = process.env.SECRET;
 
 const homeHandler = (req, res) => {
-  const filePath = path.join(__dirname, '..', 'public', 'index.html');
+   const filePath = path.join(__dirname, '..', 'public', 'index.html');
   fs.readFile(filePath, (err, file) => {
     if (err) {
       console.log(err);
@@ -36,7 +36,6 @@ const staticFileHandler = (req, res) => {
   };
 
   const extension = req.url.split('.')[1];
-
   const filePath = path.join(__dirname, '..', req.url);
 
   fs.readFile(filePath, (err, file) => {
@@ -64,45 +63,50 @@ const getDishesHandler = (req, res) => {
 };
 
 const addDishesHandler = (req, res) => {
-  let allTheData = '';
-  req.on('data', (chunk) => {
-    allTheData += chunk;
-  });
-  req.on('end', () => {
-    allTheData = querystring.parse(allTheData);
+  if (req.headers.cookie) {
+    const cookieStr = cookie.parse(req.headers.cookie).token;
+    const payload = jwt.verify(cookieStr, secret);
+    if (payload.logged_in === true) {
+      let tokenGitter = payload.username;
+      let allTheData = '';
+      req.on('data', (chunk) => {
+        allTheData += chunk;
+      });
+      req.on('end', () => {
+        allTheData = querystring.parse(allTheData);
 
-    const newObject = {
-      name: allTheData.name,
-      gitterhandle: allTheData.gitterhandle,
-      dish: allTheData.dish,
-      dietary: Object.keys(allTheData).slice(3),
-    };
-    if (newObject.dietary.length === 0) newObject.dietary = ['none of the above'];
-    addDishes((err, resData) => {
-      if (err) {
-        console.log(err.code, "THIS IS ERR CODE");
-        if (err.code === '23505') {
-          res.writeHead(400, { 'Content-type': 'text/plain' });
-          res.end('You have already added a dish');
-        } else {
-          console.log(err);
-          res.writeHead(500, { 'Content-type': 'text/plain' });
-          res.end('Something went wrong on the server');
-        }
-      } else {
-        res.writeHead(302, { 'Location' : '/' });
-        res.end();
-      }
-    }, newObject.name, newObject.gitterhandle, newObject.dish, newObject.dietary);
-  });
+        const newObject = {
+          dish: allTheData.dish,
+          dietary: Object.keys(allTheData).slice(3),
+        };
+        if (newObject.dietary.length === 0) newObject.dietary = ['none of the above'];
+        addDishes((err, resData) => {
+          if (err) {
+            console.log(err.code, 'THIS IS ERR CODE');
+            if (err.code === '23505') {
+              res.writeHead(400, { 'Content-type': 'text/plain' });
+              res.end('You have already added a dish');
+            } else {
+              console.log(err);
+              res.writeHead(500, { 'Content-type': 'text/plain' });
+              res.end('Something went wrong on the server');
+            }
+          } else {
+            res.writeHead(302, { Location: '/' });
+            res.end();
+          }
+        }, newObject.dish, newObject.dietary, tokenGitter);
+      });
+    } else {
+      res.writeHead(401);
+      res.end('Don\'t fuck with our cookies!');
+    }
+  } else {
+    res.writeHead(401);
+    res.end('You are not logged in, please log in!');
+  }
 };
 
-// const hashPassword = (password, callback) => {
-//   bcrypt.genSalt(10, (saltErr, salt) => {
-//     if (saltErr) console.log(saltErr);
-//     else bcrypt.hash(password, salt, callback);
-//   });
-// };
 
 const signUpHandler = (req, res) => {
   let allTheData = '';
@@ -136,7 +140,9 @@ const signUpHandler = (req, res) => {
                     res.writeHead(500);
                     res.end('Internal Server Error, problem with addUser query');
                   } else {
+
                     const token = jwt.sign({ username: allTheData.gitterhandle, logged_in: true }, secret);
+
                     res.writeHead(302, { Location: '/', 'Set-Cookie': `token=${token}; HttpOnly; Max-Age=9000` });
                     res.end();
                   }
