@@ -1,5 +1,5 @@
 /*eslint-disable*/
-console.log("Page reloaded");
+
 var table = document.getElementById('table');
 var loginModal = document.getElementById('loginModal');
 var loginButton = document.getElementById('login-button');
