@@ -97,6 +97,25 @@ input[type="password"]:invalid:focus {
 button {
   margin: 1rem 0 1rem 0;
   padding: 1rem 2rem 1rem 2rem;
+  border-radius: 2%;
+  font-family: 'Josefin Sans', sans-serif;
+  color: white;
+  background-color: rgb(0, 51, 0);
+}
+
+.button {
+  margin: 1rem 0 1rem 0;
+  padding: 1rem 2rem 1rem 2rem;
+  border-radius: 5%;
+  font-family: 'Josefin Sans', sans-serif;
+  color: white;
+  background-color: rgb(0, 51, 0);
+}
+
+.button:focus {
+  background-color: rgba(240, 198, 99, 0.5);
+  border: 3px solid white;
+  outline: white;
 }
 
 button:focus{

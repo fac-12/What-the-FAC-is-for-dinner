@@ -9,7 +9,8 @@ var signUpModal = document.getElementById('signUpModal');
 var signUpButton = document.getElementById('signup-button');
 var closeSignUp = document.getElementById('closeSignUp');
 var userInfo = document.getElementById('userInfo');
-var formSection = document.getElementById('form-section')
+var formSection = document.getElementById('form-section');
+var title = document.getElementById('title');
 
 logoutButton.addEventListener("click", function(){
   var xhr = new XMLHttpRequest();
@@ -102,8 +103,7 @@ userCheckXhr.open("GET", "/userCheck", true);
 userCheckXhr.send();
 
 var displayUser = function(responseObj){
-  var fromRes = document.createTextNode(responseObj.username);
-  userInfo.appendChild(fromRes);
+  title.textContent = `What the FAC is for dinner, ${responseObj.username}?`;
   userInfo.style.display = "block";
   loginButton.style.display = "none";
   signUpButton.style.display = "none";
