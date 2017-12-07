@@ -6,6 +6,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Righteous" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>What the FAC is for dinner?</title>
   </head>
   <body>
@@ -90,11 +91,12 @@
 
     <section id="results" class="results">
       <table id="table" class="results--table">
-        <tr class="table__headings">
-          <th>Name</th>
-          <th>Gitter Handle</th>
-          <th>Dish</th>
-          <th>Dietary Info</th>
+        <tr id="table__headings" class="table__headings">
+          <th class="header">Name</th>
+          <th class="header">Gitter Handle</th>
+          <th class="header">Dish</th>
+          <th class="header">Dietary Info</th>
+          <th class="deleteHeader" id="deleteHeader"></th>
         </tr>
       </table>
     </section>

@@ -3,6 +3,7 @@ const path = require('path');
 const querystring = require('querystring');
 const getDishes = require('./queries/getDishes.js');
 const addDishes = require('./queries/addDishes');
+const deleteDish = require('./queries/deleteDish');
 const addUser = require('./queries/addUser');
 const checkUser = require('./queries/checkUser');
 const logInQuery = require('./queries/logIn');
@@ -71,7 +72,6 @@ const userCheckHandler = (req, res) => {
         res.end("Don't fuck with our cookies");
       } else {
         res.writeHead(200);
-        console.log(JSON.stringify(decoded));
         res.end(JSON.stringify(decoded));
       }
     });
@@ -122,6 +122,25 @@ const addDishesHandler = (req, res) => {
   }
 };
 
+const deleteDishHandler = (req, res) => {
+  let allTheData = '';
+  req.on('data', (chunk) => {
+    allTheData += chunk;
+  });
+
+  req.on('end', () => {
+    allTheData = JSON.parse(allTheData);
+    deleteDish(allTheData.dish, allTheData.gitterhandle, (err) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal Server Error, delete query went wrong');
+      } else {
+        res.writeHead(302);
+        res.end();
+      }
+    });
+  });
+};
 
 const signUpHandler = (req, res) => {
   let allTheData = '';
@@ -231,7 +250,7 @@ const logOutHandler = (req, res) => {
         res.writeHead(401);
         res.end("Don't fuck with our cookies");
       } else {
-        res.writeHead(302, {'Set-Cookie': 'token=; Max-Age=0' });
+        res.writeHead(302, { 'Set-Cookie': 'token=; Max-Age=0' });
         res.end();
       }
     });
@@ -250,4 +269,5 @@ module.exports = {
   signUpHandler,
   userCheckHandler,
   logOutHandler,
+  deleteDishHandler,
 };
