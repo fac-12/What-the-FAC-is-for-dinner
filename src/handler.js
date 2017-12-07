@@ -99,7 +99,7 @@ const addDishesHandler = (req, res) => {
       });
     } else {
       res.writeHead(401);
-      res.end('You are not logged in, please log in!');
+      res.end('Don\'t fuck with our cookies!');
     }
   } else {
     res.writeHead(401);
