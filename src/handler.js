@@ -97,12 +97,12 @@ const addDishesHandler = (req, res) => {
   });
 };
 
-const hashPassword = (password, callback) => {
-  bcrypt.genSalt(10, (saltErr, salt) => {
-    if (saltErr) console.log(saltErr);
-    else bcrypt.hash(password, salt, callback);
-  });
-};
+// const hashPassword = (password, callback) => {
+//   bcrypt.genSalt(10, (saltErr, salt) => {
+//     if (saltErr) console.log(saltErr);
+//     else bcrypt.hash(password, salt, callback);
+//   });
+// };
 
 const signUpHandler = (req, res) => {
   let allTheData = '';
