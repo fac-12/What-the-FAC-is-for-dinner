@@ -7,6 +7,7 @@ const {
   signUpHandler,
   userCheckHandler,
   logOutHandler,
+  deleteDishHandler,
 } = require('./handler.js');
 
 const router = (request, response) => {
@@ -23,6 +24,8 @@ const router = (request, response) => {
     getDishesHandler(request, response);
   } else if (url === 'addDishes') {
     addDishesHandler(request, response);
+  } else if (url === 'deleteDish') {
+    deleteDishHandler(request, response);
   } else if (url === 'signUp') {
     signUpHandler(request, response);
   } else if (url === 'logIn') {

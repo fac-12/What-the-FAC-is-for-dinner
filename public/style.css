@@ -141,11 +141,11 @@ table {
 
 th {
   border-bottom: 0.1rem solid;
-  width: 25%;
+  width: 20%;
 }
 
 td {
-  width: 25%;
+  width: 20%;
 }
 
 @media (max-width: 1040px) {
