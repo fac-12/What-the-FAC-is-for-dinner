@@ -15,7 +15,9 @@ var messages = document.getElementById('messages');
 var originalpassword = document.getElementById('originalpassword');
 var confirmpassword = document.getElementById('confirmpassword');
 var userInfo = document.getElementById('userInfo');
-var formSection = document.getElementById('form-section')
+var formSection = document.getElementById('form-section');
+var formSection = document.getElementById('form-section');
+ var title = document.getElementById('title');
 
 logoutButton.addEventListener("click", function(){
   var xhr = new XMLHttpRequest();
@@ -143,6 +145,7 @@ var renderData = function(responseObj){
     if(this.readyState == 4 && this.status == 200){
         var userData = JSON.parse(userCheckXhr.responseText);
         displayUser(userData);
+        window.localStorage.add
       }
   }
   userCheckXhr.open("GET", "/userCheck", true);
@@ -150,8 +153,7 @@ var renderData = function(responseObj){
 }
 
 var displayUser = function(responseObj){
-  var fromRes = document.createTextNode(responseObj.username);
-  userInfo.appendChild(fromRes);
+  title.textContent = `What the FAC is for dinner, ${responseObj.username}?`;
   userInfo.style.display = "block";
   loginButton.style.display = "none";
   signUpButton.style.display = "none";
