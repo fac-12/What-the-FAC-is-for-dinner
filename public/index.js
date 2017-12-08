@@ -16,17 +16,26 @@ var originalpassword = document.getElementById('originalpassword');
 var confirmpassword = document.getElementById('confirmpassword');
 var userInfo = document.getElementById('userInfo');
 var formSection = document.getElementById('form-section');
- var title = document.getElementById('title');
+var title = document.getElementById('title');
+
+function xhrReq(method, endpoint, status, callback) {
+ var xhr = new XMLHttpRequest();
+ xhr.onreadystatechange = function() {
+   if(this.readyState == 4 && this.status == status){
+     if (status == 302) {
+       location.reload();
+     } else {
+     var response = JSON.parse(xhr.responseText);
+     callback(response);
+    }
+   }
+ }
+ xhr.open(method, endpoint, true);
+ xhr.send();
+ };
 
 logoutButton.addEventListener("click", function(){
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if(this.readyState == 4 && this.status == 302){
-      location.reload();
-    }
-  }
-  xhr.open("GET", "/logOut", true);
-  xhr.send();
+  xhrReq("GET", "/logOut", 302);
 })
 
 loginButton.addEventListener("click", function(){
@@ -48,7 +57,6 @@ signUpButton.addEventListener("click", function(){
 })
 
 modalSignUpButton.addEventListener("click", function() {
-  console.log('submitted');
   while(messages.firstChild){
     messages.removeChild(messages.firstChild);
   }
@@ -74,7 +82,6 @@ nameinput.addEventListener('invalid', function(e){
   messages.appendChild(p);
 });
 
-
 confirmpassword.addEventListener('keyup', function(e){
   if(e.target.value === originalpassword.value) {
       e.target.className = "passwordMatch";
@@ -92,21 +99,10 @@ signUpForm.addEventListener("submit", function(e){
   var p = document.createElement('p');
   p.textContent = 'Passwords do not match!';
   messages.appendChild(p);
-  }
-})
-
-var xhr = new XMLHttpRequest();
-
-xhr.onreadystatechange = function() {
-  if(this.readyState == 4 && this.status == 200){
-    var allDishes = JSON.parse(xhr.responseText);
-    renderData(allDishes);
-  }
-}
-xhr.open("GET", "/getDishes", true);
-xhr.send();
+});
 
 var renderData = function(responseObj){
+  console.log('working');
   while(table.childNodes.length > 2){
     table.removeChild(table.lastChild);
   }
@@ -137,19 +133,9 @@ var renderData = function(responseObj){
     newRow.appendChild(binIcon);
 
   });
+};
 
-  var userCheckXhr = new XMLHttpRequest();
-
-  userCheckXhr.onreadystatechange = function() {
-    if(this.readyState == 4 && this.status == 200){
-        var userData = JSON.parse(userCheckXhr.responseText);
-        displayUser(userData);
-        window.localStorage.add
-      }
-  }
-  userCheckXhr.open("GET", "/userCheck", true);
-  userCheckXhr.send();
-}
+xhrReq("GET", "/getDishes", 200, renderData);
 
 var displayUser = function(responseObj){
   title.textContent = 'What the FAC is for dinner, ' + responseObj.username + '?';
@@ -170,8 +156,9 @@ var displayUser = function(responseObj){
       row.childNodes[4].addEventListener('click', deleteAJAX);
     };
   });
-
 }
+
+xhrReq("GET", "/userCheck", 200, displayUser);
 
 var deleteAJAX = function(event) {
   var row = event.target.parentNode;
