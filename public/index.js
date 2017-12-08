@@ -16,17 +16,26 @@ var originalpassword = document.getElementById('originalpassword');
 var confirmpassword = document.getElementById('confirmpassword');
 var userInfo = document.getElementById('userInfo');
 var formSection = document.getElementById('form-section');
- var title = document.getElementById('title');
+var title = document.getElementById('title');
+
+function xhrReq(method, endpoint, status, callback) {
+ var xhr = new XMLHttpRequest();
+ xhr.onreadystatechange = function() {
+   if(this.readyState == 4 && this.status == status){
+     if (status == 302) {
+       location.reload();
+     } else {
+     var response = JSON.parse(xhr.responseText);
+     callback(response);
+    }
+   }
+ }
+ xhr.open(method, endpoint, true);
+ xhr.send();
+ };
 
 logoutButton.addEventListener("click", function(){
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
-    if(this.readyState == 4 && this.status == 302){
-      location.reload();
-    }
-  }
-  xhr.open("GET", "/logOut", true);
-  xhr.send();
+  xhrReq("GET", "/logOut", 302);
 })
 
 loginButton.addEventListener("click", function(){
@@ -94,18 +103,6 @@ signUpForm.addEventListener("submit", function(e){
   e.preventDefault();
 })
 
-function xhrReq(method, endpoint, callback) {
-var xhr = new XMLHttpRequest();
-xhr.onreadystatechange = function() {
-  if(this.readyState == 4 && this.status == 200){
-    var response = JSON.parse(xhr.responseText);
-    callback(response);
-  }
-}
-xhr.open(method, endpoint, true);
-xhr.send();
-};
-
 var renderData = function(responseObj){
   console.log('working');
   while(table.childNodes.length > 2){
@@ -140,7 +137,7 @@ var renderData = function(responseObj){
   });
 };
 
-xhrReq("GET", "/getDishes", renderData);
+xhrReq("GET", "/getDishes", 200, renderData);
 
 var displayUser = function(responseObj){
   title.textContent = 'What the FAC is for dinner, ' + responseObj.username + '?';
@@ -163,7 +160,7 @@ var displayUser = function(responseObj){
   });
 }
 
-xhrReq("GET", "/userCheck", displayUser);
+xhrReq("GET", "/userCheck", 200, displayUser);
 
 var deleteAJAX = function(event) {
   var row = event.target.parentNode;
