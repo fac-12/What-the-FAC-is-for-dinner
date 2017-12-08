@@ -48,7 +48,6 @@ signUpButton.addEventListener("click", function(){
 })
 
 modalSignUpButton.addEventListener("click", function() {
-  console.log('submitted');
   while(messages.firstChild){
     messages.removeChild(messages.firstChild);
   }
@@ -74,7 +73,6 @@ nameinput.addEventListener('invalid', function(e){
   messages.appendChild(p);
 });
 
-
 confirmpassword.addEventListener('keyup', function(e){
   if(e.target.value === originalpassword.value) {
       e.target.className = "passwordMatch";
@@ -93,20 +91,24 @@ signUpForm.addEventListener("submit", function(e){
   p.textContent = 'Passwords do not match!';
   messages.appendChild(p);
   }
+  e.preventDefault();
 })
 
+function xhrReq(method, endpoint, callback) {
 var xhr = new XMLHttpRequest();
-
 xhr.onreadystatechange = function() {
   if(this.readyState == 4 && this.status == 200){
-    var allDishes = JSON.parse(xhr.responseText);
-    renderData(allDishes);
+    var response = JSON.parse(xhr.responseText);
+    callback(response);
   }
 }
-xhr.open("GET", "/getDishes", true);
+xhr.open(method, endpoint, true);
 xhr.send();
+};
+
 
 var renderData = function(responseObj){
+  console.log('working');
   while(table.childNodes.length > 2){
     table.removeChild(table.lastChild);
   }
@@ -137,6 +139,8 @@ var renderData = function(responseObj){
     newRow.appendChild(binIcon);
 
   });
+
+xhrReq("GET", "/getDishes", renderData);
 
   var userCheckXhr = new XMLHttpRequest();
 
@@ -170,7 +174,6 @@ var displayUser = function(responseObj){
       row.childNodes[4].addEventListener('click', deleteAJAX);
     };
   });
-
 }
 
 var deleteAJAX = function(event) {
