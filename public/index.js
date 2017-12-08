@@ -99,9 +99,7 @@ signUpForm.addEventListener("submit", function(e){
   var p = document.createElement('p');
   p.textContent = 'Passwords do not match!';
   messages.appendChild(p);
-  }
-  e.preventDefault();
-})
+});
 
 var renderData = function(responseObj){
   console.log('working');
