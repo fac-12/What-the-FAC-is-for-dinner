@@ -152,7 +152,7 @@ var renderData = function(responseObj){
 }
 
 var displayUser = function(responseObj){
-  title.textContent = `What the FAC is for dinner, ${responseObj.username}?`;
+  title.textContent = 'What the FAC is for dinner, ' + responseObj.username + '?';
   userInfo.style.display = "block";
   loginButton.style.display = "none";
   signUpButton.style.display = "none";
