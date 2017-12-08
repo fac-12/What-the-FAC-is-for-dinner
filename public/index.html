@@ -17,12 +17,13 @@
         <button class="logout" id="logout-button">Log out</button>
         <button class="login" id="login-button">Log in</button>
         <button class="signup" id="signup-button">Sign up</button>
+        <button class="addDish" id="addDish-button">Add a dish</button>
       <div class="modal" id="loginModal">
         <div class="modalContent">
           <span class="close" id="closeLogin">&times;</span>
           <form action="/logIn" method="POST">
             <label for "gitterhandle">Gitter Handle:
-                <input name="gitterhandle" type="text" placeholder="Enter your Gitter handle" required>
+                <input name="gitterhandle" type="text"  required>
             </label>
             <label for "password">Password:
                 <input name="password" type="password" required>
@@ -36,10 +37,10 @@
           <span class="close" id="closeSignUp">&times;</span>
           <form action='/signUp' method="POST" id="signUpForm">
             <label for "name">Name:
-               <input name="name" type="text" placeholder="Enter your name" pattern="[A-Za-z\s]+" maxlength="30" id="nameinput" required>
+               <input name="name" type="text" pattern="[A-Za-z\s]+" maxlength="30" id="nameinput" required>
            </label>
            <label for "gitterhandle">Gitter Handle:
-               <input name="gitterhandle" type="text" placeholder="Enter your Gitter handle" required>
+               <input name="gitterhandle" type="text" required>
            </label>
            <label for "password">Password:
                <input name="password" type="password" minlength="6" id="originalpassword" required>
@@ -54,43 +55,41 @@
         </div>
       </div>
 
-      <section id="form-section" class="form-section">
-      <form class="form" action="/addDishes" method="post" id="the-form">
-        <input name="dish" type="text" class="input" placeholder="Enter your dish" id="input-dish" required></br>
+      <div class="modal" id="dish-modal">
+        <section id="form-section" class="modalContent">
+          <form action="/addDishes" method="post" id="the-form">
+            <input name="dish" type="text" class="input dishEntry" placeholder="Enter your dish" id="input-dish" required>
 
-        <label for="Vegetarian">Vegetarian
-          <input name="vegetarian" type="checkbox" class="checkbox" id="Vegetarian">
-        </label>
+            <label for="Vegetarian">Vegetarian
+              <input name="vegetarian" type="checkbox" class="checkbox" id="Vegetarian">
+            </label>
 
-        <label for="Vegan">Vegan
-          <input name="vegan" type="checkbox" class="checkbox" id="Vegan">
-        </label>
+            <label for="Vegan">Vegan
+              <input name="vegan" type="checkbox" class="checkbox" id="Vegan">
+            </label>
 
-        <label for="Gluten-free">Gluten-Free
-          <input name="glutenfree" type="checkbox" class="checkbox" id="Gluten-free">
-        </label>
+            <label for="Gluten-free">Gluten-Free
+              <input name="glutenfree" type="checkbox" class="checkbox" id="Gluten-free">
+            </label>
 
-        <label for="Nut-free">Nut-Free
-          <input name="nutfree" type="checkbox" class="checkbox" id="Nut-free">
-        </label>
+            <label for="Nut-free">Nut-Free
+              <input name="nutfree" type="checkbox" class="checkbox" id="Nut-free">
+            </label>
 
-        <label for="Dairy-free">Dairy-Free
-          <input name="dairyfree" type="checkbox" class="checkbox" id="Dairy-free">
-        </label>
+            <label for="Dairy-free">Dairy-Free
+              <input name="dairyfree" type="checkbox" class="checkbox" id="Dairy-free">
+            </label>
 
-        <label for="Halal">Halal
-          <input name="halal" type="checkbox" class="checkbox" id="Halal">
-        </label>
-
-
-
-        </br>
-        <button type="submit" class="button" id="submit-button">Add</button>
-
-      </form>
+            <label for="Halal">Halal
+              <input name="halal" type="checkbox" class="checkbox" id="Halal">
+            </label>
+            </br>
+            <button type="submit" class="button" id="submit-button">Submit</button>
+          </form>
+        </section>
+      </div>
 
 
-    </section>
 
     <section id="results" class="results">
       <table id="table" class="results--table">

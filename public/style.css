@@ -48,17 +48,17 @@ body {
  main {
   background-color: rgba(255, 255, 255, 0.7);
   margin: 2rem;
-  border-radius: 0.5rem;
+  border-radius: 1.5rem;
  }
 
-.form {
+/*.form {
   width: 90vw;
   font-size: 1.5rem;
   margin: 0 auto;
   font-family: 'Josefin Sans', sans-serif;
-}
+}*/
 
-.logout {
+.logout, .addDish {
   margin: 0 auto;
   display: none;
 }
@@ -67,7 +67,7 @@ input[type="text"],[type="password"]{
   justify-content: flex-start;
   padding: 0.7rem;
   background-color: rgba(211, 211, 211, 0.5);
-  margin: 0 1rem 0rem 1rem;
+  margin: 0 1rem 1rem 1rem;
   font-family: 'Josefin Sans', sans-serif;
 }
 input[type="text"]:focus {
@@ -120,7 +120,7 @@ button:focus{
 
 .modal {
   display: none;
-  position:fixed;
+  position: fixed;
   z-index: 1;
   left: 0;
   top: 0;
@@ -133,23 +133,29 @@ button:focus{
 
 .modalContent {
   display: flex;
-  direction: column;
-  align-items: center;
+  border-radius: 1rem;
+  flex-direction: column;
   justify-content: center;
   background-color:  rgb(255, 255, 255);
   margin: 15% auto;
   padding: 20px;
-  border: 1px solid blue;
-  width: 50%;
+  width: 300px;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .modalContent label {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   }
 
 .close {
   display: none;
+}
+
+.dishEntry {
+  margin-bottom: 1rem;
+  width: 80%;
 }
 
 .close:hover, close:focus {
@@ -159,7 +165,7 @@ button:focus{
 }
 
 .results {
-  margin-top: 0;
+  margin-top: 2rem;
   display: flex;
   width: 100%;
   height: 40vh;
@@ -172,7 +178,7 @@ button:focus{
 h1 {
   font-family: 'Righteous', cursive;
   font-size: 4rem;
-  padding: 1rem 0 0rem 0;
+  padding: 1rem 0 2rem 0;
   margin: 0;
 }
 
@@ -182,11 +188,6 @@ h1 {
   font-family: 'Josefin Sans', sans-serif;
 }
 
-.form-section {
-  font-family: 'Josefin Sans', sans-serif;
-  display: none;
-  padding: 2rem 1rem 2rem 1rem;
-}
 table {
   padding: 1rem 0 1rem 0;
   width: 100%;
@@ -203,6 +204,7 @@ th {
 
 td {
   width: 20%;
+  padding: 0.5rem 0 0.5rem 0;
 }
 
 @media (max-width: 1040px) {
@@ -216,6 +218,11 @@ td {
 
   label {
     font-size: 1rem;
+    text-align: left;
+  }
+
+  h1 {
+    font-size: 2rem;
   }
 
   .results {
@@ -225,4 +232,16 @@ td {
   .table__headings {
     font-size: 1rem;
   }
+
+  .modalContent {
+    width: 200px;
+  }
+
+  input[type="text"],[type="password"] {
+    width: 75px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+
 }
