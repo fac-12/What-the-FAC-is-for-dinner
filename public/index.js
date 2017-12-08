@@ -17,6 +17,8 @@ var confirmpassword = document.getElementById('confirmpassword');
 var userInfo = document.getElementById('userInfo');
 var formSection = document.getElementById('form-section');
 var title = document.getElementById('title');
+var addDishButton = document.getElementById('addDish-button');
+var addDishModal = document.getElementById('dish-modal');
 
 function xhrReq(method, endpoint, status, callback) {
  var xhr = new XMLHttpRequest();
@@ -49,12 +51,22 @@ closeLogIn.addEventListener("click", function(){
 window.addEventListener("click", function(e){
   if(e.target == loginModal){
     loginModal.style.display = "none";
+  } else if (e.target == addDishModal) {
+      addDishModal.style.display = "none";
+  } else if(e.target == signUpModal){
+    signUpModal.style.display = "none";
   }
 })
 
 signUpButton.addEventListener("click", function(){
   signUpModal.style.display = "block";
 })
+
+addDishButton.addEventListener("click", function() {
+  addDishModal.style.display = "block";
+});
+
+
 
 modalSignUpButton.addEventListener("click", function() {
   while(messages.firstChild){
@@ -64,13 +76,7 @@ modalSignUpButton.addEventListener("click", function() {
 
 closeSignUp.addEventListener("click", function(){
   signUpModal.style.display= "none";
-})
-
-window.addEventListener("click", function(e){
-  if(e.target == signUpModal){
-    signUpModal.style.display = "none";
-  }
-})
+});
 
 nameinput.addEventListener('invalid', function(e){
   e.preventDefault();
@@ -96,9 +102,10 @@ signUpForm.addEventListener("submit", function(e){
     while(messages.firstChild){
       messages.removeChild(messages.firstChild);
     }
-  var p = document.createElement('p');
-  p.textContent = 'Passwords do not match!';
-  messages.appendChild(p);
+    var p = document.createElement('p');
+    p.textContent = 'Passwords do not match!';
+    messages.appendChild(p);
+  }
 });
 
 var renderData = function(responseObj){
@@ -138,12 +145,17 @@ var renderData = function(responseObj){
 xhrReq("GET", "/getDishes", 200, renderData);
 
 var displayUser = function(responseObj){
-  title.textContent = 'What the FAC is for dinner, ' + responseObj.username + '?';
+  var linebreak = document.createElement('br');
+  title.textContent = 'What the FAC is for dinner,';
+  title.appendChild(linebreak);
+  var username = document.createTextNode(responseObj.username + '?');
+  title.appendChild(username);
   userInfo.style.display = "block";
   loginButton.style.display = "none";
   signUpButton.style.display = "none";
   formSection.style.display = "flex";
-  logoutButton.style.display = "block";
+  logoutButton.style.display = "inline";
+  addDishButton.style.display = "inline";
 
   var deleteHeader = document.getElementById('deleteHeader');
 

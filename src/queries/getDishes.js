@@ -8,7 +8,7 @@ const getDishes = (cb) => {
     AND dishes.id = connections.dish_id AND connections.dietary_id = dietary.id
     GROUP BY users.name, users.gitterhandle, dishes.name`, (err, res) => {
       if (err) {
-        console.log('there is error');
+        console.log('there is error, getDishes query is not working!');
         cb(err);
       } else {
         cb(null, res.rows);
