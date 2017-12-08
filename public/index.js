@@ -106,7 +106,6 @@ xhr.open(method, endpoint, true);
 xhr.send();
 };
 
-
 var renderData = function(responseObj){
   console.log('working');
   while(table.childNodes.length > 2){
@@ -139,21 +138,9 @@ var renderData = function(responseObj){
     newRow.appendChild(binIcon);
 
   });
+};
 
 xhrReq("GET", "/getDishes", renderData);
-
-  var userCheckXhr = new XMLHttpRequest();
-
-  userCheckXhr.onreadystatechange = function() {
-    if(this.readyState == 4 && this.status == 200){
-        var userData = JSON.parse(userCheckXhr.responseText);
-        displayUser(userData);
-        window.localStorage.add
-      }
-  }
-  userCheckXhr.open("GET", "/userCheck", true);
-  userCheckXhr.send();
-}
 
 var displayUser = function(responseObj){
   title.textContent = 'What the FAC is for dinner, ' + responseObj.username + '?';
@@ -175,6 +162,8 @@ var displayUser = function(responseObj){
     };
   });
 }
+
+xhrReq("GET", "/userCheck", displayUser);
 
 var deleteAJAX = function(event) {
   var row = event.target.parentNode;
