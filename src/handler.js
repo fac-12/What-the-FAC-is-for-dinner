@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
+const db = require('./database/db_connections');
 const getDishes = require('./queries/getDishes.js');
 const addDishes = require('./queries/addDishes');
 const deleteDish = require('./queries/deleteDish');
@@ -11,10 +12,11 @@ const bcrypt = require('bcryptjs');
 const cookie = require('cookie');
 const jwt = require('jsonwebtoken');
 require('env2')('config.env');
+
 const secret = process.env.SECRET;
 
 const homeHandler = (req, res) => {
-   const filePath = path.join(__dirname, '..', 'public', 'index.html');
+  const filePath = path.join(__dirname, '..', 'public', 'index.html');
   fs.readFile(filePath, (err, file) => {
     if (err) {
       console.log(err);
@@ -51,16 +53,22 @@ const staticFileHandler = (req, res) => {
 };
 
 const getDishesHandler = (req, res) => {
-  getDishes((err, resData) => {
-    if (err) {
-      res.writeHead(500, { 'Content-type': 'text/plain' });
-      res.end('Something went wrong on the server');
-    } else {
-      const jsonData = JSON.stringify(resData);
-      res.writeHead(200, { 'Content-type': 'application/json' });
-      res.end(jsonData);
-    }
-  });
+  db.query(`SELECT users.name AS users, users.gitterhandle AS gitter,
+  dishes.name AS dishes, string_agg(dietary.name, ', ') AS diet
+  FROM users, dishes, dietary, connections WHERE users.id = dishes.makerid
+  AND dishes.id = connections.dish_id AND connections.dietary_id = dietary.id
+  GROUP BY users.name, users.gitterhandle, dishes.name`)
+    .then(dishes => console.log(dishes));
+  // getDishes((err, resData) => {
+  //   if (err) {
+  //     res.writeHead(500, { 'Content-type': 'text/plain' });
+  //     res.end('Something went wrong on the server');
+  //   } else {
+  //     const jsonData = JSON.stringify(resData);
+  //     res.writeHead(200, { 'Content-type': 'application/json' });
+  //     res.end(jsonData);
+  //   }
+  // });
 };
 
 const userCheckHandler = (req, res) => {
